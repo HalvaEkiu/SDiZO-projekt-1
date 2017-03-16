@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Tablica.h"
 #include <windows.h>
+#include <fstream>
 
 using  std::cout;
 using std::endl;
@@ -35,6 +36,41 @@ void Tablica::Wstaw(int wartoscNowegoElementu, int indexPoprzedzajacego)
 	}
 	else
 		DodajPoIndexie(wartoscNowegoElementu, indexPoprzedzajacego);
+}
+
+void Tablica::ZapiszDoPliku(string NazwaPliku)
+{
+	std::fstream plik;
+	plik.open(NazwaPliku, std::ios::out);
+
+	if (plik.good() == true)
+	{
+		plik << iloscElementow << endl;
+		for (int i = 0; i < iloscElementow; i++) {
+			plik << wskaznikPoczatkuTablicy[i] << endl;
+		}
+		plik.close();
+	}
+	else std::cout << "Dostep do pliku zostal zabroniony!" << std::endl;
+
+}
+
+void Tablica::OdczytZPliku(string NazwaPliku)
+{
+	std::fstream plik;
+	plik.open(NazwaPliku, std::ios::in);
+
+	if (plik.good() == true)
+	{
+		plik >> iloscElementow;
+		wskaznikPoczatkuTablicy = new int[iloscElementow];
+		
+		for (int i = 0; i < iloscElementow; i++) {
+			plik >> wskaznikPoczatkuTablicy[i];
+		}
+		plik.close();
+	}
+	else std::cout << "Dostep do pliku zostal zabroniony!" << std::endl;
 }
 
 void Tablica::DodajPoIndexie(int wartoscNowegoElementu, int indexPoprzedzajacego)

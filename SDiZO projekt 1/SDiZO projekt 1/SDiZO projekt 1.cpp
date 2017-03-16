@@ -26,6 +26,13 @@ int main()
 	tablica.Wstaw(52, 7);
 	tablica.Wyswietl();
 
+	tablica.ZapiszDoPliku("nowyPlik.txt");
+
+
+	Tablica tablica2;
+	tablica2.OdczytZPliku("nowyPlik.txt");
+	tablica2.Wyswietl();
+
 	cout << "zakoñczono" << endl;
 	int temp;
 	cin >> temp;
