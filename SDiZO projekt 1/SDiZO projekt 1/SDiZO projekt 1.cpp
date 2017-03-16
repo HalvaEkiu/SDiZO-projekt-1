@@ -3,23 +3,30 @@
 
 #include "stdafx.h"
 #include "Tablica.h"
+#include <windows.h>
 
 
 int main()
 {
 	using std::cout;
+	using std::endl;
 	using std::cin;
 
 	//Umo¿liwienie wypisywania polskich znaków
 	setlocale(LC_ALL, "");
 	
 	Tablica tablica;
-	tablica.Wyswietl();
+
 	tablica.DodajNaKoniec(5);
 	tablica.DodajNaKoniec(6);
 	tablica.DodajNaKoniec(7);
+	tablica.DodajNaKoniec(8);
+	tablica.DodajNaKoniec(9);
+	tablica.Wstaw(49, 0);
+	tablica.Wstaw(52, 7);
 	tablica.Wyswietl();
 
+	cout << "zakoñczono" << endl;
 	int temp;
 	cin >> temp;
 	
