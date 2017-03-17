@@ -22,6 +22,7 @@ public:
 	void ZapiszDoPliku(string NazwaPliku);
 	void OdczytZPliku(string NazwaPliku);
 	void GenerujTabliceLosowo(int rozmiarTablicy);
+	void UsunElement(int wartoscElementuDoUsuniecia);
 	void UsunZawartosc();
 
 private:

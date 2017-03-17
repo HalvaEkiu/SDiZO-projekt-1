@@ -18,12 +18,13 @@ int main()
 	
 	int liczba = 10;
 
-	Tablica tablica;
-	tablica.GenerujTabliceLosowo(liczba);
-	tablica.Wyswietl();
+	Lista lista;
+	lista.GenerujTabliceLosowo(liczba);
+	lista.Wstaw(49, 0);
+	lista.Wyswietl();
 
-	tablica.UsunElemementOIndexie(10);
-	tablica.Wyswietl();
+	lista.UsunElement(49);
+	lista.Wyswietl();
 	
 	
 	cout << "zakoñczono" << endl;

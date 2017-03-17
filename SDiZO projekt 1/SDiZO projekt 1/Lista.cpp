@@ -122,6 +122,28 @@ void Lista::GenerujTabliceLosowo(int rozmiarTablicy)
 	}
 }
 
+void Lista::UsunElement(int wartoscElementuDoUsuniecia)
+{
+	ElementListy* wska¿nikPomocniczy = nullptr;
+	wska¿nikPomocniczy = wskaznikPoczatkuListy;
+
+	for (int i = 0; i < iloscElementow; i++) {
+		if (wska¿nikPomocniczy->wartosc == wartoscElementuDoUsuniecia) {
+			ElementListy* wskaznikPoprzedniego = wska¿nikPomocniczy->wskaznikNaPoprzedni;
+			wskaznikPoprzedniego->wskaznikNaKolejny = wska¿nikPomocniczy->wskaznikNaKolejny;
+
+			ElementListy* wskaznikNastepnego = wska¿nikPomocniczy->wskaznikNaKolejny;
+			wskaznikNastepnego->wskaznikNaPoprzedni = wska¿nikPomocniczy->wskaznikNaPoprzedni;
+
+			delete wska¿nikPomocniczy;
+			iloscElementow--;
+			break;
+		}
+		wska¿nikPomocniczy = wska¿nikPomocniczy->wskaznikNaKolejny;
+	}
+
+}
+
 void Lista::WyswietlOdPoczatku()
 {
 	ElementListy* wskaznikPomocniczyListy = nullptr;
