@@ -1,10 +1,5 @@
 #include "stdafx.h"
 #include "Tablica.h"
-#include <windows.h>
-#include <fstream>
-#include <cstdlib>
-#include <cstdio>
-#include <ctime>
 
 using  std::cout;
 using std::endl;

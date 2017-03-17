@@ -8,6 +8,11 @@
 #include "targetver.h"
 #include <iostream>
 #include <string>
+#include <windows.h>
+#include <fstream>
+#include <cstdlib>
+#include <cstdio>
+#include <ctime>
 
 
 

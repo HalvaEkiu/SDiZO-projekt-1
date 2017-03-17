@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "Tablica.h"
+#include "Lista.h"
 #include <windows.h>
 
 
@@ -15,29 +16,17 @@ int main()
 	//Umo¿liwienie wypisywania polskich znaków
 	setlocale(LC_ALL, "");
 	
-	Tablica tablica;
+	int liczba = 10;
 
-	tablica.DodajNaKoniec(5);
-	tablica.DodajNaKoniec(6);
-	tablica.DodajNaKoniec(7);
-	tablica.DodajNaKoniec(8);
-	tablica.DodajNaKoniec(9);
-	tablica.Wstaw(49, 0);
-	tablica.Wstaw(52, 7);
-	tablica.Wyswietl();
+	Lista lista;
+	for (int i = 0; i < liczba; i++) {
+		lista.DodajNaKoniec(i);
+	}
+	lista.Wyswietl();
+	
 
-	tablica.GenerujTabliceLosowo(100000000);
-	tablica.DodajNaKoniec(5);
-	Sleep(1000);
-	tablica.DodajNaKoniec(6);
-	Sleep(1000);
-	tablica.DodajNaKoniec(7);
-	Sleep(1000);
-	tablica.DodajNaKoniec(8);
-	tablica.DodajNaKoniec(9);
-	tablica.Wstaw(49, 0);
-	tablica.Wstaw(52, 7);
-	//tablica.Wyswietl();
+
+	
 
 	cout << "zakoñczono" << endl;
 	int temp;

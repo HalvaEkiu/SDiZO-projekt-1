@@ -1,18 +1,21 @@
 #pragma once
 
-#include <string>
+#include <string>;
+#include "ElementListy.h";
+
 using std::string;
 
-class Tablica
+class Lista
 {
 private:
-	int* wskaznikPoczatkuTablicy;
+	ElementListy* wskaznikPoczatkuListy;
+	ElementListy* wskaznikKoncaListy;
 	int iloscElementow;
 	int gornaWartoscLiczbLosowych;
 
 public:
-	Tablica();
-	~Tablica();
+	Lista();
+	~Lista();
 	void Wyswietl();
 	void DodajNaKoniec(int wartoscNowegoElementu);
 	void Wstaw(int wartoscNowegoElementu, int indexPoprzedzajacego);
@@ -25,3 +28,4 @@ private:
 	void DodajNaKoniecIstniejacego(int wartoscNowegoElementu);
 	void UtworzKonteneriDodaj(int wartoscNowegoElementu);
 };
+
