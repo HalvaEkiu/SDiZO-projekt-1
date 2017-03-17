@@ -16,15 +16,33 @@ int main()
 	//Umo¿liwienie wypisywania polskich znaków
 	setlocale(LC_ALL, "");
 	
-	int liczba = 10000000;
+	int liczba = 100000;
 
 	Lista lista;
 	lista.GenerujTabliceLosowo(liczba);
+	lista.ZapiszDoPliku("lista.txt");
+	cout << "zapisano\n";
+	//lista.Wyswietl();
+
+	Sleep(1000);
+
+	lista.UsunZawartosc();
 	
-
-
+	Sleep(2000);
 	
-
+	lista.OdczytZPliku("lista.txt");
+	cout << "wczytano\n";
+	
+	
+	Sleep(2000);
+	
+	lista.UsunZawartosc();
+	
+	Sleep(2000);
+	
+	lista.OdczytZPliku("lista.txt");
+	cout << "wczytano\n";
+	
 	cout << "zakoñczono" << endl;
 	int temp;
 	cin >> temp;

@@ -22,11 +22,12 @@ public:
 	void ZapiszDoPliku(string NazwaPliku);
 	void OdczytZPliku(string NazwaPliku);
 	void GenerujTabliceLosowo(int rozmiarTablicy);
+	void UsunZawartosc();
 
 private:
 	void WyswietlOdPoczatku();
 	void WyswietlOdKonca();
 	void DodajPoIndexie(int wartoscNowegoElementu, int indexPoprzedzajacego);
-	void UsunZawartosc();
+	
 };
 
