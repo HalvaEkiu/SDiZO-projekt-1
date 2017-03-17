@@ -85,6 +85,8 @@ void Lista::ZapiszDoPliku(string NazwaPliku)
 
 void Lista::OdczytZPliku(string NazwaPliku)
 {
+	UsunZawartosc();
+
 	std::fstream plik;
 	plik.open(NazwaPliku, std::ios::in);
 
