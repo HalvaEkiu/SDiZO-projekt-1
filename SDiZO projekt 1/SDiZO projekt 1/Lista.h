@@ -18,7 +18,7 @@ public:
 	~Lista();
 	void Wyswietl();
 	void DodajNaKoniec(int wartoscNowegoElementu);
-	void Wstaw(int wartoscNowegoElementu, int indexPoprzedzajacego);
+	void Wstaw(int wartoscNowegoElementu, int indexNowego);
 	void ZapiszDoPliku(string NazwaPliku);
 	void OdczytZPliku(string NazwaPliku);
 	void GenerujTabliceLosowo(int rozmiarTablicy);
@@ -27,7 +27,7 @@ public:
 private:
 	void WyswietlOdPoczatku();
 	void WyswietlOdKonca();
-	void DodajPoIndexie(int wartoscNowegoElementu, int indexPoprzedzajacego);
+	void WstawDoListy(int wartoscNowegoElementu, int indexPoprzedzajacego);
 	
 };
 

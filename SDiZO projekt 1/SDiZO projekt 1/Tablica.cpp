@@ -7,7 +7,7 @@ using std::endl;
 Tablica::Tablica()
 {
 	wskaznikPoczatkuTablicy = nullptr;
-	gornaWartoscLiczbLosowych = 100;
+	gornaWartoscLiczbLosowych = 10;
 	srand(time(NULL));
 }
 
@@ -29,13 +29,13 @@ void Tablica::DodajNaKoniec(int wartoscNowegoElementu)
 
 //	Wstawianie wewn¹trz tablicy, je¿eli nie ma elementu o podanym indeksie, 
 //	to dodaje na koniec tablicy
-void Tablica::Wstaw(int wartoscNowegoElementu, int indexPoprzedzajacego)
+void Tablica::Wstaw(int wartoscNowegoElementu, int indexNowegoElementu)
 {
-	if (iloscElementow < indexPoprzedzajacego) {
+	if (iloscElementow < indexNowegoElementu + 1) {
 		DodajNaKoniec(wartoscNowegoElementu);
 	}
 	else
-		DodajPoIndexie(wartoscNowegoElementu, indexPoprzedzajacego);
+		WstawDoTablicy(wartoscNowegoElementu, indexNowegoElementu);
 }
 
 void Tablica::ZapiszDoPliku(string NazwaPliku)
@@ -89,19 +89,44 @@ void Tablica::GenerujTabliceLosowo(int rozmiarTablicy)
 
 }
 
-void Tablica::DodajPoIndexie(int wartoscNowegoElementu, int indexPoprzedzajacego)
+void Tablica::UsunElemementOIndexie(int indexElementuDoUsuniecia)
+{
+	if (indexElementuDoUsuniecia <= iloscElementow - 1) {
+		int pomniejszonaIloscElementow = iloscElementow - 1;
+		int* wskaznikNowejTablicy = new int[pomniejszonaIloscElementow];
+
+		for (int i = 0; i < indexElementuDoUsuniecia; i++) {
+			wskaznikNowejTablicy[i] = wskaznikPoczatkuTablicy[i];
+		}
+
+		for (int i = indexElementuDoUsuniecia + 1; i < iloscElementow; i++) {
+			wskaznikNowejTablicy[i - 1] = wskaznikPoczatkuTablicy[i];
+		}
+
+		delete[] wskaznikPoczatkuTablicy;
+
+		wskaznikPoczatkuTablicy = wskaznikNowejTablicy;
+		iloscElementow = pomniejszonaIloscElementow;
+	}
+	else {
+		cout << "Nie ma elementu o takim indeksie." << endl;
+	}
+		
+}
+
+void Tablica::WstawDoTablicy(int wartoscNowegoElementu, int indexNowegoElementu)
 {
 	int* wskaznikNowejTablicy = new int[iloscElementow + 1];
 	int nowaIloscElementow = iloscElementow + 1;
 
-	for (int i = 0; i <= indexPoprzedzajacego; i++) {
+	for (int i = 0; i < indexNowegoElementu; i++) {
 		wskaznikNowejTablicy[i] = wskaznikPoczatkuTablicy[i];
 	}
 
-	wskaznikNowejTablicy[indexPoprzedzajacego + 1] = wartoscNowegoElementu;
+	wskaznikNowejTablicy[indexNowegoElementu] = wartoscNowegoElementu;
 
-	for (int i = indexPoprzedzajacego + 1; i < nowaIloscElementow; i++) {
-		wskaznikNowejTablicy[i + 1] = wskaznikPoczatkuTablicy[i];
+	for (int i = indexNowegoElementu + 1; i < nowaIloscElementow; i++) {
+		wskaznikNowejTablicy[i] = wskaznikPoczatkuTablicy[i - 1];
 	}
 
 	delete[] wskaznikPoczatkuTablicy;
@@ -111,7 +136,6 @@ void Tablica::DodajPoIndexie(int wartoscNowegoElementu, int indexPoprzedzajacego
 
 void Tablica::Wyswietl()
 {
-	std::cout << std::endl;
 	if (wskaznikPoczatkuTablicy != nullptr) {
 		cout << endl;
 		for (int i = 0; i < iloscElementow; i++) {

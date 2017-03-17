@@ -15,13 +15,14 @@ public:
 	~Tablica();
 	void Wyswietl();
 	void DodajNaKoniec(int wartoscNowegoElementu);
-	void Wstaw(int wartoscNowegoElementu, int indexPoprzedzajacego);
+	void Wstaw(int wartoscNowegoElementu, int indexNowegoElementu);
 	void ZapiszDoPliku(string NazwaPliku);
 	void OdczytZPliku(string NazwaPliku);
 	void GenerujTabliceLosowo(int rozmiarTablicy);
+	void UsunElemementOIndexie(int indexElementuDoUsuniecia);
 
 private:
-	void DodajPoIndexie(int wartoscNowegoElementu, int indexPoprzedzajacego);
+	void WstawDoTablicy(int wartoscNowegoElementu, int indexPoprzedzajacego);
 	void DodajNaKoniecIstniejacego(int wartoscNowegoElementu);
 	void UtworzKonteneriDodaj(int wartoscNowegoElementu);
 };

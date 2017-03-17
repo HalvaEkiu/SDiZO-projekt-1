@@ -9,7 +9,9 @@ Lista::Lista()
 	wskaznikPoczatkuListy = nullptr;
 	wskaznikKoncaListy = nullptr;
 
-	gornaWartoscLiczbLosowych = 100;
+	srand(time(NULL));
+
+	gornaWartoscLiczbLosowych = 10;
 }
 
 Lista::~Lista()
@@ -50,10 +52,10 @@ void Lista::DodajNaKoniec(int wartoscNowegoElementu)
 	}
 }
 
-void Lista::Wstaw(int wartoscNowegoElementu, int indexPoprzedzajacego)
+void Lista::Wstaw(int wartoscNowegoElementu, int indexNowego)
 {
-	if (indexPoprzedzajacego + 1 < iloscElementow) {
-		DodajPoIndexie(wartoscNowegoElementu, indexPoprzedzajacego);
+	if (indexNowego < iloscElementow) {
+		WstawDoListy(wartoscNowegoElementu, indexNowego);
 	}
 	else
 	{
@@ -145,12 +147,14 @@ void Lista::WyswietlOdKonca()
 
 }
 
-void Lista::DodajPoIndexie(int wartoscNowegoElementu, int indexPoprzedzajacego)
+void Lista::WstawDoListy(int wartoscNowegoElementu, int indexNowego)
 {
 	int licznikElementow = 0;
 	ElementListy* wskaznikPomocniczy = nullptr;
 
 	wskaznikPomocniczy = wskaznikPoczatkuListy;
+	int indexPoprzedzajacego = indexNowego - 1;
+
 	for (int i = 0; i < indexPoprzedzajacego; i++) {
 		wskaznikPomocniczy = wskaznikPomocniczy->wskaznikNaKolejny;
 	}
