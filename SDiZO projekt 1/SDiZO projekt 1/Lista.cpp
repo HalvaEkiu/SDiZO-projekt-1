@@ -8,8 +8,9 @@ Lista::Lista()
 {
 	wskaznikPoczatkuListy = nullptr;
 	wskaznikKoncaListy = nullptr;
-}
 
+	gornaWartoscLiczbLosowych = 100;
+}
 
 Lista::~Lista()
 {
@@ -62,6 +63,16 @@ void Lista::Wstaw(int wartoscNowegoElementu, int indexPoprzedzajacego)
 
 void Lista::GenerujTabliceLosowo(int rozmiarTablicy)
 {
+	if (wskaznikPoczatkuListy != nullptr) {
+		UsunZawartosc();
+	}
+
+	int wartoscNowegoElementu = 0;
+
+	for (int i = 0; i < rozmiarTablicy; i++) {
+		wartoscNowegoElementu = rand() % gornaWartoscLiczbLosowych;
+		DodajNaKoniec(wartoscNowegoElementu);
+	}
 }
 
 void Lista::WyswietlOdPoczatku()
@@ -131,6 +142,7 @@ void Lista::UsunZawartosc()
 				wskaznikPoczatkuListy = wskaznikPomocniczy->wskaznikNaKolejny;
 
 				delete wskaznikPomocniczy;
+				iloscElementow = 0;
 			}
 			wskaznikKoncaListy = nullptr;
 		}
