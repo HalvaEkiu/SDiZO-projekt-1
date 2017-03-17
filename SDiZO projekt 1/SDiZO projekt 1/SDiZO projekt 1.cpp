@@ -16,13 +16,13 @@ int main()
 	//Umo¿liwienie wypisywania polskich znaków
 	setlocale(LC_ALL, "");
 	
-	int liczba = 10;
+	int liczba = 1000000;
 
 	Lista lista;
 	for (int i = 0; i < liczba; i++) {
 		lista.DodajNaKoniec(i);
 	}
-	lista.Wyswietl();
+	Sleep(2000);
 	
 
 

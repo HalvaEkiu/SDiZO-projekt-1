@@ -13,36 +13,15 @@ Lista::Lista()
 
 Lista::~Lista()
 {
-	if (wskaznikPoczatkuListy != nullptr) {
-		if (wskaznikKoncaListy != nullptr)
-		{
-			//usuwanie
-		}
-	}
+	UsunZawartosc();
 }
 
 void Lista::Wyswietl()
 {
-	std::cout << std::endl;
-	ElementListy* wskaznikPomocniczyListy = nullptr;
-
-	if (wskaznikPoczatkuListy != nullptr) {
-		wskaznikPomocniczyListy = wskaznikPoczatkuListy;
-		if (wskaznikPomocniczyListy == nullptr) cout << "b³¹d krytyczny!!! \a\n\n";
-		cout << endl;
-		for (int i = 0; i < iloscElementow; i++) {
-			cout << wskaznikPomocniczyListy->wartosc << " ";
-			wskaznikPomocniczyListy = wskaznikPomocniczyListy->wskaznikNaKolejny;
-		}
-		cout << endl;
-
-		wskaznikPomocniczyListy = wskaznikKoncaListy;
-
-		for (int i = 0; i < iloscElementow; i++) {
-			cout << wskaznikPomocniczyListy->wartosc << " ";
-			wskaznikPomocniczyListy = wskaznikPomocniczyListy->wskaznikNaPoprzedni;
-		}
-		cout << endl;
+	if (wskaznikPoczatkuListy != nullptr && wskaznikKoncaListy != nullptr) 
+	{
+		WyswietlOdPoczatku();
+		WyswietlOdKonca();
 	}
 	else {
 		std::cout << "Tablica jest pusta" << std::endl;
@@ -67,5 +46,93 @@ void Lista::DodajNaKoniec(int wartoscNowegoElementu)
 		wskaznikKoncaListy->wskaznikNaKolejny = wskaznikNowegoElementu;
 		wskaznikKoncaListy = wskaznikNowegoElementu;
 		iloscElementow++;
+	}
+}
+
+void Lista::Wstaw(int wartoscNowegoElementu, int indexPoprzedzajacego)
+{
+	if (indexPoprzedzajacego + 1 < iloscElementow) {
+		DodajPoIndexie(wartoscNowegoElementu, indexPoprzedzajacego);
+	}
+	else
+	{
+		DodajNaKoniec(wartoscNowegoElementu);
+	}
+}
+
+void Lista::GenerujTabliceLosowo(int rozmiarTablicy)
+{
+}
+
+void Lista::WyswietlOdPoczatku()
+{
+	ElementListy* wskaznikPomocniczyListy = nullptr;
+	wskaznikPomocniczyListy = wskaznikPoczatkuListy;
+
+	
+	for (int i = 0; i < iloscElementow; i++) {
+		cout << wskaznikPomocniczyListy->wartosc << " ";
+		wskaznikPomocniczyListy = wskaznikPomocniczyListy->wskaznikNaKolejny;
+	}
+	cout << endl;
+}
+
+void Lista::WyswietlOdKonca()
+{
+	ElementListy* wskaznikPomocniczyListy = nullptr;
+	wskaznikPomocniczyListy = wskaznikKoncaListy;
+
+	
+
+	for (int i = 0; i < iloscElementow; i++) {
+		cout << wskaznikPomocniczyListy->wartosc << " ";
+		wskaznikPomocniczyListy = wskaznikPomocniczyListy->wskaznikNaPoprzedni;
+	}
+	cout << endl;
+
+}
+
+void Lista::DodajPoIndexie(int wartoscNowegoElementu, int indexPoprzedzajacego)
+{
+	int licznikElementow = 0;
+	ElementListy* wskaznikPomocniczy = nullptr;
+
+	wskaznikPomocniczy = wskaznikPoczatkuListy;
+	for (int i = 0; i < indexPoprzedzajacego; i++) {
+		wskaznikPomocniczy = wskaznikPomocniczy->wskaznikNaKolejny;
+	}
+
+	ElementListy* wskaznikElementuPoprzedniego = nullptr;
+	ElementListy* wskaznikElementuNastepnego = nullptr;
+
+	wskaznikElementuPoprzedniego = wskaznikPomocniczy;
+	wskaznikElementuNastepnego = wskaznikElementuPoprzedniego->wskaznikNaKolejny;
+
+	wskaznikPomocniczy = new ElementListy;
+	wskaznikPomocniczy->wartosc = wartoscNowegoElementu;
+	wskaznikPomocniczy->wskaznikNaPoprzedni = wskaznikElementuPoprzedniego;
+	wskaznikPomocniczy->wskaznikNaKolejny = wskaznikElementuNastepnego;
+
+	wskaznikElementuPoprzedniego->wskaznikNaKolejny = wskaznikPomocniczy;
+	wskaznikElementuNastepnego->wskaznikNaPoprzedni = wskaznikPomocniczy;
+
+	iloscElementow++;
+}
+
+void Lista::UsunZawartosc()
+{
+	if (wskaznikPoczatkuListy != nullptr)
+	{
+		if (wskaznikKoncaListy != nullptr)
+		{
+			ElementListy* wskaznikPomocniczy;
+			for (int i = 0; i < iloscElementow; i++) {
+				wskaznikPomocniczy = wskaznikPoczatkuListy;
+				wskaznikPoczatkuListy = wskaznikPomocniczy->wskaznikNaKolejny;
+
+				delete wskaznikPomocniczy;
+			}
+			wskaznikKoncaListy = nullptr;
+		}
 	}
 }

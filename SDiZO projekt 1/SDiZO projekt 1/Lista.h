@@ -24,8 +24,9 @@ public:
 	void GenerujTabliceLosowo(int rozmiarTablicy);
 
 private:
+	void WyswietlOdPoczatku();
+	void WyswietlOdKonca();
 	void DodajPoIndexie(int wartoscNowegoElementu, int indexPoprzedzajacego);
-	void DodajNaKoniecIstniejacego(int wartoscNowegoElementu);
-	void UtworzKonteneriDodaj(int wartoscNowegoElementu);
+	void UsunZawartosc();
 };
 
