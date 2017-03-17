@@ -2,6 +2,9 @@
 #include "Tablica.h"
 #include <windows.h>
 #include <fstream>
+#include <cstdlib>
+#include <cstdio>
+#include <ctime>
 
 using  std::cout;
 using std::endl;
@@ -9,6 +12,8 @@ using std::endl;
 Tablica::Tablica()
 {
 	wskaznikPoczatkuTablicy = nullptr;
+	gornaWartoscLiczbLosowych = 100;
+	srand(time(NULL));
 }
 
 Tablica::~Tablica()
@@ -73,6 +78,22 @@ void Tablica::OdczytZPliku(string NazwaPliku)
 	else std::cout << "Dostep do pliku zostal zabroniony!" << std::endl;
 }
 
+void Tablica::GenerujTabliceLosowo(int rozmiarTablicy)
+{
+	if (wskaznikPoczatkuTablicy != nullptr) {
+		delete[] wskaznikPoczatkuTablicy;
+		wskaznikPoczatkuTablicy = nullptr;
+	}
+
+	iloscElementow = rozmiarTablicy;
+	wskaznikPoczatkuTablicy = new int[iloscElementow];
+
+	for (int i = 0; i < iloscElementow; i++) {
+		wskaznikPoczatkuTablicy[i] = rand() % gornaWartoscLiczbLosowych;
+	}
+
+}
+
 void Tablica::DodajPoIndexie(int wartoscNowegoElementu, int indexPoprzedzajacego)
 {
 	int* wskaznikNowejTablicy = new int[iloscElementow + 1];
@@ -97,9 +118,11 @@ void Tablica::Wyswietl()
 {
 	std::cout << std::endl;
 	if (wskaznikPoczatkuTablicy != nullptr) {
+		cout << endl;
 		for (int i = 0; i < iloscElementow; i++) {
-			std::cout << wskaznikPoczatkuTablicy[i] << std::endl;
+			std::cout << wskaznikPoczatkuTablicy[i] << " ";
 		}
+		cout << endl;
 	}
 	else {
 		std::cout << "Tablica jest pusta" << std::endl;

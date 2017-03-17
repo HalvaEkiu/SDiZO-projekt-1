@@ -5,11 +5,10 @@ using std::string;
 
 class Tablica
 {
-	
-
 private:
 	int* wskaznikPoczatkuTablicy;
 	int iloscElementow;
+	int gornaWartoscLiczbLosowych;
 
 public:
 	Tablica();
@@ -19,6 +18,7 @@ public:
 	void Wstaw(int wartoscNowegoElementu, int indexPoprzedzajacego);
 	void ZapiszDoPliku(string NazwaPliku);
 	void OdczytZPliku(string NazwaPliku);
+	void GenerujTabliceLosowo(int rozmiarTablicy);
 
 private:
 	void DodajPoIndexie(int wartoscNowegoElementu, int indexPoprzedzajacego);

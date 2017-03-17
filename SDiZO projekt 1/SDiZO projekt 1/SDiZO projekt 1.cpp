@@ -26,12 +26,18 @@ int main()
 	tablica.Wstaw(52, 7);
 	tablica.Wyswietl();
 
-	tablica.ZapiszDoPliku("nowyPlik.txt");
-
-
-	Tablica tablica2;
-	tablica2.OdczytZPliku("nowyPlik.txt");
-	tablica2.Wyswietl();
+	tablica.GenerujTabliceLosowo(100000000);
+	tablica.DodajNaKoniec(5);
+	Sleep(1000);
+	tablica.DodajNaKoniec(6);
+	Sleep(1000);
+	tablica.DodajNaKoniec(7);
+	Sleep(1000);
+	tablica.DodajNaKoniec(8);
+	tablica.DodajNaKoniec(9);
+	tablica.Wstaw(49, 0);
+	tablica.Wstaw(52, 7);
+	//tablica.Wyswietl();
 
 	cout << "zakoñczono" << endl;
 	int temp;
