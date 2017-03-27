@@ -17,7 +17,6 @@ public:
 	Lista();
 	~Lista();
 	void Wyswietl();
-	void DodajNaKoniec(int wartoscNowegoElementu);
 	void Wstaw(int wartoscNowegoElementu, int indexNowego);
 	void ZapiszDoPliku(string NazwaPliku);
 	void OdczytZPliku(string NazwaPliku);
@@ -28,6 +27,8 @@ public:
 private:
 	void WyswietlOdPoczatku();
 	void WyswietlOdKonca();
+	void DodajNaKoniec(int wartoscNowegoElementu);
+	void DodajNaPoczatek(int wartoscNowegoElementu);
 	void WstawDoListy(int wartoscNowegoElementu, int indexPoprzedzajacego);
 	
 };

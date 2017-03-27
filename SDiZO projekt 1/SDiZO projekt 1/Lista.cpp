@@ -54,12 +54,36 @@ void Lista::DodajNaKoniec(int wartoscNowegoElementu)
 
 void Lista::Wstaw(int wartoscNowegoElementu, int indexNowego)
 {
-	if (indexNowego < iloscElementow) {
+	if (indexNowego == 0) {
+		DodajNaPoczatek(wartoscNowegoElementu);
+	}
+	else if (indexNowego < iloscElementow) {
 		WstawDoListy(wartoscNowegoElementu, indexNowego);
+	}
+	else {
+		DodajNaKoniec(wartoscNowegoElementu);
+	}
+}
+
+void Lista::DodajNaPoczatek(int wartoscNowegoElementu) {
+	if (wskaznikPoczatkuListy == nullptr) {
+		wskaznikPoczatkuListy = new ElementListy;
+		wskaznikPoczatkuListy->wartosc = wartoscNowegoElementu;
+		wskaznikKoncaListy = wskaznikPoczatkuListy;
+		iloscElementow++;
 	}
 	else
 	{
-		DodajNaKoniec(wartoscNowegoElementu);
+		ElementListy* wskaznikNowegoElementu = nullptr;
+		wskaznikNowegoElementu = new ElementListy;
+
+		wskaznikNowegoElementu->wartosc = wartoscNowegoElementu;
+		wskaznikNowegoElementu->wskaznikNaPoprzedni = nullptr;
+		wskaznikNowegoElementu->wskaznikNaKolejny = wskaznikPoczatkuListy;
+
+		wskaznikPoczatkuListy->wskaznikNaPoprzedni = wskaznikNowegoElementu;
+		wskaznikPoczatkuListy = wskaznikNowegoElementu;
+		iloscElementow++;
 	}
 }
 
@@ -124,22 +148,38 @@ void Lista::GenerujTabliceLosowo(int rozmiarTablicy)
 
 void Lista::UsunElement(int wartoscElementuDoUsuniecia)
 {
-	ElementListy* wska¿nikPomocniczy = nullptr;
-	wska¿nikPomocniczy = wskaznikPoczatkuListy;
+	ElementListy* wskaznikPomocniczy = nullptr;
+	wskaznikPomocniczy = wskaznikPoczatkuListy;
 
 	for (int i = 0; i < iloscElementow; i++) {
-		if (wska¿nikPomocniczy->wartosc == wartoscElementuDoUsuniecia) {
-			ElementListy* wskaznikPoprzedniego = wska¿nikPomocniczy->wskaznikNaPoprzedni;
-			wskaznikPoprzedniego->wskaznikNaKolejny = wska¿nikPomocniczy->wskaznikNaKolejny;
+		if (wskaznikPomocniczy->wartosc == wartoscElementuDoUsuniecia) {
+			
+			ElementListy* wskaznikPoprzedniego = nullptr;
+			ElementListy* wskaznikNastepnego = nullptr;
 
-			ElementListy* wskaznikNastepnego = wska¿nikPomocniczy->wskaznikNaKolejny;
-			wskaznikNastepnego->wskaznikNaPoprzedni = wska¿nikPomocniczy->wskaznikNaPoprzedni;
+			wskaznikPoprzedniego = wskaznikPomocniczy->wskaznikNaPoprzedni;
+			wskaznikNastepnego = wskaznikPomocniczy->wskaznikNaKolejny;
 
-			delete wska¿nikPomocniczy;
+			if (wskaznikPoprzedniego != nullptr) { //tylko gdy istnieje poprzedni element
+				wskaznikPoprzedniego->wskaznikNaKolejny = wskaznikNastepnego;
+			}
+			if (wskaznikNastepnego != nullptr) { //tylko gdy istnieje poprzedni element
+				wskaznikNastepnego->wskaznikNaPoprzedni = wskaznikPoprzedniego;
+			}
+
+			if (i == 0) { //zmienia wskaŸnik listy gdy usuwany pierwszy element 
+				wskaznikPoczatkuListy = wskaznikNastepnego;
+			}
+			if (i == (iloscElementow - 1)) { //zmienia wskaŸnik listy gdy usuwany ostatni element 
+				wskaznikKoncaListy = wskaznikPoprzedniego;
+			}
+
+
+			delete wskaznikPomocniczy;
 			iloscElementow--;
-			break;
+			break; // po usuniêciu wychodzi z pêtli
 		}
-		wska¿nikPomocniczy = wska¿nikPomocniczy->wskaznikNaKolejny;
+		wskaznikPomocniczy = wskaznikPomocniczy->wskaznikNaKolejny;
 	}
 
 }

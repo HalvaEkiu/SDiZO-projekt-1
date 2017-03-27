@@ -16,10 +16,11 @@ int main()
 	//Umo¿liwienie wypisywania polskich znaków
 	setlocale(LC_ALL, "");
 	
-	int liczba = 10;
+	int liczba = 5;
 
 	Lista lista;
 	lista.GenerujTabliceLosowo(liczba);
+	lista.Wyswietl();
 	lista.Wstaw(49, 0);
 	lista.Wyswietl();
 
