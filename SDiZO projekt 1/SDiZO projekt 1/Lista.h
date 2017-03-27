@@ -23,6 +23,7 @@ public:
 	void GenerujTabliceLosowo(int rozmiarTablicy);
 	void UsunElement(int wartoscElementuDoUsuniecia);
 	void UsunZawartosc();
+	void CzyWstrukturze(int wartoscElementuSzukanego);
 
 private:
 	void WyswietlOdPoczatku();

@@ -33,6 +33,9 @@
     <ClInclude Include="ElementListy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="KopiecBinarny.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -48,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ElementListy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="KopiecBinarny.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

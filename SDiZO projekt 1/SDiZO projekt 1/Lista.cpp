@@ -257,3 +257,25 @@ void Lista::UsunZawartosc()
 		wskaznikPoczatkuListy = nullptr;
 	}
 }
+
+void Lista::CzyWstrukturze(int wartoscElementuSzukanego)
+{
+	bool czyZnaleziono = false;
+	ElementListy* wskaznikPomocniczyListy = nullptr;
+	wskaznikPomocniczyListy = wskaznikPoczatkuListy;
+		
+	for (int i = 0; i < iloscElementow; i++) {
+		if (wskaznikPomocniczyListy->wartosc == wartoscElementuSzukanego) {
+			czyZnaleziono = true;
+			break;
+		}
+		wskaznikPomocniczyListy = wskaznikPomocniczyListy->wskaznikNaKolejny;
+	}
+
+	if (czyZnaleziono == true) {
+		cout << "Podana wartoœæ znajduje sie w strukturze." << endl;
+	}
+	else {
+		cout << "Podana wartoœæ nie znajduje sie w strukturze." << endl;
+	}
+}
