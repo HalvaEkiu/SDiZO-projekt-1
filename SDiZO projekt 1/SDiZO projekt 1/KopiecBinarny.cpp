@@ -28,6 +28,47 @@ KopiecBinarny::~KopiecBinarny()
 	}
 }
 
+void KopiecBinarny::ZapiszDoPliku(string NazwaPliku)
+{
+	std::fstream plik;
+	plik.open(NazwaPliku, std::ios::out);
+
+	if (plik.good() == true)
+	{
+		plik << iloscElementow << endl;
+		for (int i = 0; i < iloscElementow; i++) {
+			plik << wskaznikPoczatkuTablicy[i] << endl;
+		}
+		plik.close();
+	}
+	else std::cout << "Dostep do pliku zostal zabroniony!" << std::endl;
+}
+
+void KopiecBinarny::OdczytZPliku(string NazwaPliku)
+{
+	std::fstream plik;
+	plik.open(NazwaPliku, std::ios::in);
+
+	if (plik.good() == true)
+	{
+		int iloscElementowDocelowa = 0;
+		plik >> iloscElementowDocelowa;
+
+		//czyszczenie tablicy kopca zerami
+		iloscElementow = 0;
+		Wyswietl("  ", " ", 0);
+
+		int wartoscPomocnicza = 0;
+
+		for (int i = 0; i < iloscElementowDocelowa; i++) {
+			plik >> wartoscPomocnicza;
+			Dodaj(wartoscPomocnicza);
+		}
+		plik.close();
+	}
+	else std::cout << "Dostep do pliku zostal zabroniony!" << std::endl;
+}
+
 void KopiecBinarny::Dodaj(int wartoscElementu)
 {
 	wskaznikPoczatkuTablicy[iloscElementow] = wartoscElementu;

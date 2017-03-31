@@ -103,21 +103,14 @@ int main()
 	}
 
 	kopiec.Dodaj(1000);	
-	kopiec.Dodaj(102);
-
-	kopiec.Dodaj(256);
-	kopiec.Dodaj(350);
-	kopiec.Dodaj(788);
-
-	cout << endl;
-	kopiec.Wyswietl("    ", " ", 0);
-
-	kopiec.Usun(102);
 
 	cout << endl;
 	kopiec.Wyswietl("    ", " ", 0);
 	
-	kopiec.Usun(1000);
+	kopiec.ZapiszDoPliku("kopiecTestowy.txt");
+	kopiec.Dodaj(999);
+
+	kopiec.OdczytZPliku("kopiecTestowy.txt");
 
 	cout << endl;
 	kopiec.Wyswietl("    ", " ", 0);

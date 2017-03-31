@@ -16,7 +16,7 @@ public:
 	~KopiecBinarny();
 	void ZapiszDoPliku(string NazwaPliku);
 	void OdczytZPliku(string NazwaPliku);
-	void GenerujTabliceLosowo(int rozmiarTablicy);
+	void GenerujKopiecLosowo(int iloscElementow);
 	void Dodaj(int wartoscElementu);
 	void NaprawaDrzewaWGore(int indexElementu);
 	void NaprawaDrzewaWDol(int indexElementu);
