@@ -114,6 +114,8 @@ int main()
 
 	cout << endl;
 	kopiec.Wyswietl("    ", " ", 0);
+
+	kopiec.CzyWstrukturze(1000);
 	
 
 

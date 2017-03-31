@@ -11,6 +11,7 @@ public:
 	int* wskaznikPoczatkuTablicy;
 	int iloscElementow;
 	int rozmiarTablicy;
+	int gornaWartoscLiczbLosowych;
 
 	KopiecBinarny();
 	~KopiecBinarny();

@@ -69,6 +69,17 @@ void KopiecBinarny::OdczytZPliku(string NazwaPliku)
 	else std::cout << "Dostep do pliku zostal zabroniony!" << std::endl;
 }
 
+void KopiecBinarny::GenerujKopiecLosowo(int iloscElementow)
+{
+	KopiecBinarny::iloscElementow = 0;
+	int wartoscTymczasowa = 0;
+
+	for (int i = 0; i < iloscElementow; i++) {
+		wartoscTymczasowa = rand() % gornaWartoscLiczbLosowych;
+	}
+
+}
+
 void KopiecBinarny::Dodaj(int wartoscElementu)
 {
 	wskaznikPoczatkuTablicy[iloscElementow] = wartoscElementu;
@@ -165,6 +176,25 @@ void KopiecBinarny::Usun(int wartoscElementuUsuniecia)
 	}
 	else if (wskaznikPoczatkuTablicy[indexSynaPrawego] > wskaznikPoczatkuTablicy[indexElementuDoUsuniecia]) {
 		NaprawaDrzewaWDol(indexElementuDoUsuniecia);
+	}
+}
+
+void KopiecBinarny::CzyWstrukturze(int wartoscElementu)
+{
+	bool czyZnaleziono = false;
+	
+	for (int i = 0; i < iloscElementow; i++) {
+		if (wskaznikPoczatkuTablicy[i] == wartoscElementu) {
+			czyZnaleziono = true;
+			break;
+		}
+	}
+
+	if (czyZnaleziono == true) {
+		cout << "Znaleziono wartosc " << wartoscElementu << " w strukturze.\n";
+	}
+	else {
+		cout << "Nie naleziono wartosci " << wartoscElementu << " w strukturze.\n";
 	}
 }
 
