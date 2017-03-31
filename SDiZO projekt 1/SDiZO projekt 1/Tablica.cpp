@@ -63,6 +63,11 @@ void Tablica::OdczytZPliku(string NazwaPliku)
 	if (plik.good() == true)
 	{
 		plik >> iloscElementow;
+
+		if (wskaznikPoczatkuTablicy != nullptr) {
+			delete[] wskaznikPoczatkuTablicy;
+		}
+
 		wskaznikPoczatkuTablicy = new int[iloscElementow];
 		
 		for (int i = 0; i < iloscElementow; i++) {
