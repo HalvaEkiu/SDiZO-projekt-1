@@ -88,19 +88,48 @@ int main()
 	printBT("    ", "", 0);
 	*/
 
+
+	
 	KopiecBinarny kopiec;
 
 	int wartoscTymczasowa = 0;
-	for (int i = 0; i < 20; i++)
+
+
+	for (int i = 0; i < 10; i++)
 	{
 		wartoscTymczasowa = rand() % 100;
 		cout << wartoscTymczasowa << " ";
 		kopiec.Dodaj(wartoscTymczasowa);
 	}
 
+	kopiec.Dodaj(1000);	
+	kopiec.Dodaj(102);
+
+	kopiec.Dodaj(256);
+	kopiec.Dodaj(350);
+	kopiec.Dodaj(788);
+
 	cout << endl;
-	kopiec.Wyswietl("    ", "", 0);
+	kopiec.Wyswietl("    ", " ", 0);
+
+	kopiec.Usun(102);
+
+	cout << endl;
+	kopiec.Wyswietl("    ", " ", 0);
 	
+	kopiec.Usun(1000);
+
+	cout << endl;
+	kopiec.Wyswietl("    ", " ", 0);
+	
+
+
+	/*
+	Tablica tablica;
+	tablica.GenerujTabliceLosowo(20);
+	tablica.DodajNaKoniec(49);
+	tablica.CzyWStrukturze(49);
+	*/
 	cout << "zakoñczono" << endl;
 	int temp;
 	cin >> temp;

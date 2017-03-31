@@ -20,6 +20,7 @@ public:
 	void OdczytZPliku(string NazwaPliku);
 	void GenerujTabliceLosowo(int rozmiarTablicy);
 	void UsunElemementOIndexie(int indexElementuDoUsuniecia);
+	void CzyWStrukturze(int wartoscElementuSzukanego);
 
 private:
 	void WstawDoTablicy(int wartoscNowegoElementu, int indexPoprzedzajacego);

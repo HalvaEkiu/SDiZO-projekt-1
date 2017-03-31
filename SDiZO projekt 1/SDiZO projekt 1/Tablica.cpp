@@ -114,6 +114,27 @@ void Tablica::UsunElemementOIndexie(int indexElementuDoUsuniecia)
 		
 }
 
+void Tablica::CzyWStrukturze(int wartoscElementuSzukanego)
+{
+	bool czyZnaleziono = false;
+	
+	int* wskaznikPomocniczyTablicy = wskaznikPoczatkuTablicy;
+
+	for (int i = 0; i < iloscElementow; i++) {
+		if (wskaznikPomocniczyTablicy[i] == wartoscElementuSzukanego) {
+			czyZnaleziono = true;
+			break;
+		}
+	}
+
+	if (czyZnaleziono == true) {
+		cout << "Podana wartoœæ znajduje sie w strukturze." << endl;
+	}
+	else {
+		cout << "Podana wartoœæ nie znajduje sie w strukturze." << endl;
+	}
+}
+
 void Tablica::WstawDoTablicy(int wartoscNowegoElementu, int indexNowegoElementu)
 {
 	int* wskaznikNowejTablicy = new int[iloscElementow + 1];

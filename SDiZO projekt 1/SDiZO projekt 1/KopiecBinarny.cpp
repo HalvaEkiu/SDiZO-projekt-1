@@ -6,8 +6,10 @@ using std::endl;
 
 KopiecBinarny::KopiecBinarny()
 {
+	rozmiarTablicy = 30;
+
 	wskaznikPoczatkuTablicy = nullptr;
-	wskaznikPoczatkuTablicy = new int[20];
+	wskaznikPoczatkuTablicy = new int[rozmiarTablicy];
 
 	srand(time(NULL));
 
@@ -28,18 +30,101 @@ KopiecBinarny::~KopiecBinarny()
 
 void KopiecBinarny::Dodaj(int wartoscElementu)
 {
-	int i, j;
+	wskaznikPoczatkuTablicy[iloscElementow] = wartoscElementu;
+	iloscElementow++;
+	NaprawaDrzewaWGore(iloscElementow - 1);
+}
 
-	i = iloscElementow++;
-	j = (i - 1) / 2; // obliczanie indexu ojca
-
-	while (i > 0 && wskaznikPoczatkuTablicy[j] < wartoscElementu)
+void KopiecBinarny::NaprawaDrzewaWGore(int indexElementu)
+{
+	int indexOjca = (indexElementu - 1) / 2;
+	
+	if (indexElementu > 0 &&
+		wskaznikPoczatkuTablicy[indexOjca] < wskaznikPoczatkuTablicy[indexElementu]) 
 	{
-		wskaznikPoczatkuTablicy[i] = wskaznikPoczatkuTablicy[j];
-		i = j;
-		j = (i - 1) / 2; // obliczanie indexu ojca
+		std::swap(wskaznikPoczatkuTablicy[indexElementu], wskaznikPoczatkuTablicy[indexOjca]);
+
+		indexElementu = indexOjca;
+		NaprawaDrzewaWGore(indexElementu);
 	}
-	wskaznikPoczatkuTablicy[i] = wartoscElementu;
+}
+
+void KopiecBinarny::NaprawaDrzewaWDol(int indexElementu)
+{
+	int indexSynaLewego = (2 * indexElementu) + 1;
+	int indexSynaPrawego = indexSynaLewego + 1;
+
+	if (indexSynaLewego < iloscElementow && indexSynaPrawego < iloscElementow) {
+		//obaj synowie istniej¹
+		if (wskaznikPoczatkuTablicy[indexSynaLewego] >= wskaznikPoczatkuTablicy[indexSynaPrawego]) {
+			if (wskaznikPoczatkuTablicy[indexElementu] < wskaznikPoczatkuTablicy[indexSynaLewego]) {
+				std::swap(wskaznikPoczatkuTablicy[indexSynaLewego], wskaznikPoczatkuTablicy[indexElementu]);
+
+				indexElementu = indexSynaLewego;
+				NaprawaDrzewaWDol(indexElementu);
+			}
+		}
+		else {
+			if (wskaznikPoczatkuTablicy[indexElementu] < wskaznikPoczatkuTablicy[indexSynaPrawego]) {
+				std::swap(wskaznikPoczatkuTablicy[indexSynaPrawego], wskaznikPoczatkuTablicy[indexElementu]);
+
+				indexElementu = indexSynaPrawego;
+				NaprawaDrzewaWDol(indexElementu);
+			}
+		}
+	}
+	else if (indexSynaLewego < iloscElementow && indexSynaPrawego > iloscElementow) {
+		//brak prawego syna
+		if (wskaznikPoczatkuTablicy[indexElementu] < wskaznikPoczatkuTablicy[indexSynaLewego]) {
+			std::swap(wskaznikPoczatkuTablicy[indexSynaLewego], wskaznikPoczatkuTablicy[indexElementu]);
+
+			indexElementu = indexSynaLewego;
+			NaprawaDrzewaWDol(indexElementu);
+		}
+	}
+	else {
+		// brak synów
+	}
+}
+
+void KopiecBinarny::Usun(int wartoscElementuUsuniecia)
+{
+	int i, j, v;
+
+	int indexElementuDoUsuniecia = -1;
+
+	for (int i = 0; i < iloscElementow; i++) {
+		if (wskaznikPoczatkuTablicy[i] == wartoscElementuUsuniecia) {
+			cout << "znaleziono\n";
+			indexElementuDoUsuniecia = i;
+			break;
+		}
+	}
+	//cout << "przed: "<< endl;
+	//Wyswietl("    ", " ", 0);
+	std::swap(wskaznikPoczatkuTablicy[iloscElementow - 1], wskaznikPoczatkuTablicy[indexElementuDoUsuniecia]);
+	//cout << "po: " << endl;
+	//Wyswietl("    ", " ", 0);
+
+	iloscElementow--;
+
+
+
+	int indexOjca = (indexElementuDoUsuniecia - 1) / 2;
+	int indexSynaLewego = (2 * indexElementuDoUsuniecia) + 1;
+	int indexSynaPrawego = indexSynaLewego + 1;
+
+	if (indexOjca >= 0 &&
+		wskaznikPoczatkuTablicy[indexOjca] < wskaznikPoczatkuTablicy[indexElementuDoUsuniecia]) {
+		NaprawaDrzewaWGore(indexElementuDoUsuniecia);
+	}
+
+	if (wskaznikPoczatkuTablicy[indexSynaLewego] > wskaznikPoczatkuTablicy[indexElementuDoUsuniecia]) {
+		NaprawaDrzewaWDol(indexElementuDoUsuniecia);
+	}
+	else if (wskaznikPoczatkuTablicy[indexSynaPrawego] > wskaznikPoczatkuTablicy[indexElementuDoUsuniecia]) {
+		NaprawaDrzewaWDol(indexElementuDoUsuniecia);
+	}
 }
 
 void KopiecBinarny::Wyswietl(string sp, string sn, int index)
