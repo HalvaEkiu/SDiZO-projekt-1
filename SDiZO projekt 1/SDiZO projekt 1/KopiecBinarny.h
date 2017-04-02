@@ -19,11 +19,13 @@ public:
 	void OdczytZPliku(string NazwaPliku);
 	void GenerujKopiecLosowo(int iloscElementow);
 	void Dodaj(int wartoscElementu);
+	void UsunElement(int wartoscElementuUsuniecia);
+	void CzyWstrukturze(int wartoscElementu);
+	void Wyswietl();
+
+private: 
 	void NaprawaDrzewaWGore(int indexElementu);
 	void NaprawaDrzewaWDol(int indexElementu);
-	void Zdejmij(int wartoscElementu);
-	void Usun(int wartoscElementuUsuniecia);
-	void CzyWstrukturze(int wartoscElementu);
 	void Wyswietl(string sp, string sn, int wartoscElementu);
 };
 

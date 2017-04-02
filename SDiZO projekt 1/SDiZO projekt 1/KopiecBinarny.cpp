@@ -6,10 +6,11 @@ using std::endl;
 
 KopiecBinarny::KopiecBinarny()
 {
-	rozmiarTablicy = 30;
+	rozmiarTablicy = 10; //rozmiar maksymalny tablicy
 
-	wskaznikPoczatkuTablicy = nullptr;
+	wskaznikPoczatkuTablicy = nullptr; //najpierw nullptr na wypadek niemo¿liwoœci zaalokowania
 	wskaznikPoczatkuTablicy = new int[rozmiarTablicy];
+	gornaWartoscLiczbLosowych = 1000;
 
 	srand(time(NULL));
 
@@ -19,7 +20,6 @@ KopiecBinarny::KopiecBinarny()
 	cl[0] = 192; cl[1] = 196;
 	cp[0] = 179;
 }
-
 
 KopiecBinarny::~KopiecBinarny()
 {
@@ -54,37 +54,43 @@ void KopiecBinarny::OdczytZPliku(string NazwaPliku)
 		int iloscElementowDocelowa = 0;
 		plik >> iloscElementowDocelowa;
 
-		//czyszczenie tablicy kopca zerami
-		iloscElementow = 0;
-		Wyswietl("  ", " ", 0);
+		if (iloscElementowDocelowa <= rozmiarTablicy) {
 
-		int wartoscPomocnicza = 0;
+			//czyszczenie tablicy kopca zerami
+			iloscElementow = 0;
+			int wartoscPomocnicza = 0;
 
-		for (int i = 0; i < iloscElementowDocelowa; i++) {
-			plik >> wartoscPomocnicza;
-			Dodaj(wartoscPomocnicza);
+			for (int i = 0; i < iloscElementowDocelowa; i++) {
+				plik >> wartoscPomocnicza;
+				Dodaj(wartoscPomocnicza);
+			}
+
+			plik.close();
 		}
-		plik.close();
 	}
-	else std::cout << "Dostep do pliku zostal zabroniony!" << std::endl;
+	else cout << "Wystapil problem z dostepeme do pliku.\nImport danych nieudany." << endl;
 }
 
-void KopiecBinarny::GenerujKopiecLosowo(int iloscElementow)
+void KopiecBinarny::GenerujKopiecLosowo(int iloscElementowDocelowa)
 {
+	srand(time(NULL));
+
 	KopiecBinarny::iloscElementow = 0;
 	int wartoscTymczasowa = 0;
 
-	for (int i = 0; i < iloscElementow; i++) {
+	for (int i = 0; i < iloscElementowDocelowa; i++) {
 		wartoscTymczasowa = rand() % gornaWartoscLiczbLosowych;
+		Dodaj(wartoscTymczasowa);
 	}
-
 }
 
 void KopiecBinarny::Dodaj(int wartoscElementu)
 {
-	wskaznikPoczatkuTablicy[iloscElementow] = wartoscElementu;
-	iloscElementow++;
-	NaprawaDrzewaWGore(iloscElementow - 1);
+	if ((iloscElementow + 1) < rozmiarTablicy) {
+		wskaznikPoczatkuTablicy[iloscElementow] = wartoscElementu;
+		iloscElementow++;
+		NaprawaDrzewaWGore(iloscElementow - 1);
+	}
 }
 
 void KopiecBinarny::NaprawaDrzewaWGore(int indexElementu)
@@ -139,43 +145,39 @@ void KopiecBinarny::NaprawaDrzewaWDol(int indexElementu)
 	}
 }
 
-void KopiecBinarny::Usun(int wartoscElementuUsuniecia)
+void KopiecBinarny::UsunElement(int wartoscElementuUsuniecia)
 {
-	int i, j, v;
-
 	int indexElementuDoUsuniecia = -1;
+	bool czyZnaleziono = false;
 
 	for (int i = 0; i < iloscElementow; i++) {
 		if (wskaznikPoczatkuTablicy[i] == wartoscElementuUsuniecia) {
-			cout << "znaleziono\n";
 			indexElementuDoUsuniecia = i;
+			czyZnaleziono = true;
 			break;
 		}
 	}
-	//cout << "przed: "<< endl;
-	//Wyswietl("    ", " ", 0);
-	std::swap(wskaznikPoczatkuTablicy[iloscElementow - 1], wskaznikPoczatkuTablicy[indexElementuDoUsuniecia]);
-	//cout << "po: " << endl;
-	//Wyswietl("    ", " ", 0);
+	
+	if (czyZnaleziono == true) {
+		std::swap(wskaznikPoczatkuTablicy[iloscElementow - 1], wskaznikPoczatkuTablicy[indexElementuDoUsuniecia]);
 
-	iloscElementow--;
+		iloscElementow--;
 
+		int indexOjca = (indexElementuDoUsuniecia - 1) / 2;
+		int indexSynaLewego = (2 * indexElementuDoUsuniecia) + 1;
+		int indexSynaPrawego = indexSynaLewego + 1;
 
+		if (indexOjca >= 0 &&
+			wskaznikPoczatkuTablicy[indexOjca] < wskaznikPoczatkuTablicy[indexElementuDoUsuniecia]) {
+			NaprawaDrzewaWGore(indexElementuDoUsuniecia);
+		}
 
-	int indexOjca = (indexElementuDoUsuniecia - 1) / 2;
-	int indexSynaLewego = (2 * indexElementuDoUsuniecia) + 1;
-	int indexSynaPrawego = indexSynaLewego + 1;
-
-	if (indexOjca >= 0 &&
-		wskaznikPoczatkuTablicy[indexOjca] < wskaznikPoczatkuTablicy[indexElementuDoUsuniecia]) {
-		NaprawaDrzewaWGore(indexElementuDoUsuniecia);
-	}
-
-	if (wskaznikPoczatkuTablicy[indexSynaLewego] > wskaznikPoczatkuTablicy[indexElementuDoUsuniecia]) {
-		NaprawaDrzewaWDol(indexElementuDoUsuniecia);
-	}
-	else if (wskaznikPoczatkuTablicy[indexSynaPrawego] > wskaznikPoczatkuTablicy[indexElementuDoUsuniecia]) {
-		NaprawaDrzewaWDol(indexElementuDoUsuniecia);
+		if (wskaznikPoczatkuTablicy[indexSynaLewego] > wskaznikPoczatkuTablicy[indexElementuDoUsuniecia]) {
+			NaprawaDrzewaWDol(indexElementuDoUsuniecia);
+		}
+		else if (wskaznikPoczatkuTablicy[indexSynaPrawego] > wskaznikPoczatkuTablicy[indexElementuDoUsuniecia]) {
+			NaprawaDrzewaWDol(indexElementuDoUsuniecia);
+		}
 	}
 }
 
@@ -218,5 +220,16 @@ void KopiecBinarny::Wyswietl(string sp, string sn, int index)
 		s = sp;
 		if (sn == cl) s[s.length() - 2] = ' ';
 		Wyswietl(s + cp, cl, 2 * index + 1);
+	}
+}
+
+void KopiecBinarny::Wyswietl()
+{
+	if (iloscElementow > 0) {
+		cout << "\n";
+		Wyswietl("    ", " ", 0);
+	}
+	else {
+		cout << "\nKopiec nie zawiera elementow. \n";
 	}
 }
