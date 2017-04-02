@@ -20,7 +20,7 @@ public:
 	void Wstaw(int wartoscNowegoElementu, int indexNowego);
 	void ZapiszDoPliku(string NazwaPliku);
 	void OdczytZPliku(string NazwaPliku);
-	void GenerujTabliceLosowo(int rozmiarTablicy);
+	void GenerujListeLosowo(int rozmiarTablicy);
 	void UsunElement(int wartoscElementuDoUsuniecia);
 	void UsunZawartosc();
 	void CzyWstrukturze(int wartoscElementuSzukanego);

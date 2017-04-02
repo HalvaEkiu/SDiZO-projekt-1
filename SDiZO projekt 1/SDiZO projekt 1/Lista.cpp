@@ -132,7 +132,7 @@ void Lista::OdczytZPliku(string NazwaPliku)
 	plik.close();
 }
 
-void Lista::GenerujTabliceLosowo(int rozmiarTablicy)
+void Lista::GenerujListeLosowo(int rozmiarTablicy)
 {
 	if (wskaznikPoczatkuListy != nullptr) {
 		UsunZawartosc();

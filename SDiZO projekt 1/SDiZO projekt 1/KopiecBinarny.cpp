@@ -6,7 +6,7 @@ using std::endl;
 
 KopiecBinarny::KopiecBinarny()
 {
-	rozmiarTablicy = 10; //rozmiar maksymalny tablicy
+	rozmiarTablicy = 20000; //rozmiar maksymalny tablicy
 
 	wskaznikPoczatkuTablicy = nullptr; //najpierw nullptr na wypadek niemo¿liwoœci zaalokowania
 	wskaznikPoczatkuTablicy = new int[rozmiarTablicy];

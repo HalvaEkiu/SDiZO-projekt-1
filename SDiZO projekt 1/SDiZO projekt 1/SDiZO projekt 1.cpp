@@ -5,7 +5,9 @@
 #include "Tablica.h"
 #include "Lista.h"
 #include "KopiecBinarny.h"
+#include "MenuProgramu.h"
 #include <windows.h>
+
 
 using std::cout;
 using std::endl;
@@ -13,15 +15,10 @@ using std::cin;
 
 int main()
 {
-	KopiecBinarny kopiec;
-
-	kopiec.GenerujKopiecLosowo(10);
-	kopiec.Wyswietl();
-
-	int temp;
-	cin >> temp;
+	MenuProgramu menuProgramu;
+	menuProgramu.UruchomGloweMenu();
 	
-
     return 0;
 }
+
 

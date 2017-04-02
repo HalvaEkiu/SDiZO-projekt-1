@@ -148,6 +148,7 @@
     <ClInclude Include="ElementListy.h" />
     <ClInclude Include="KopiecBinarny.h" />
     <ClInclude Include="Lista.h" />
+    <ClInclude Include="MenuProgramu.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Tablica.h" />
     <ClInclude Include="targetver.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="ElementListy.cpp" />
     <ClCompile Include="KopiecBinarny.cpp" />
     <ClCompile Include="Lista.cpp" />
+    <ClCompile Include="MenuProgramu.cpp" />
     <ClCompile Include="SDiZO projekt 1.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
