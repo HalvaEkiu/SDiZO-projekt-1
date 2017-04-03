@@ -39,6 +39,12 @@
     <ClInclude Include="MenuProgramu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DrzewoBST.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WezelDrzewaBST.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -60,6 +66,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MenuProgramu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrzewoBST.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WezelDrzewaBST.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

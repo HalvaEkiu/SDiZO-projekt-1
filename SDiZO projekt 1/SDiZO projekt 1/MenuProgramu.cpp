@@ -12,6 +12,7 @@ using std::string;
 
 MenuProgramu::MenuProgramu()
 {
+	string s = "cos cos" + std::to_string(1999.991) + "\n";
 }
 
 MenuProgramu::~MenuProgramu()
@@ -30,7 +31,7 @@ void MenuProgramu::UruchomGloweMenu()
 			<< "1. Tablica." << endl
 			<< "2. Lista dwukierunkowa." << endl
 			<< "3. Kopiec binarny." << endl
-			<< "4. Drzewo czerwono - czarne." << endl
+			<< "4. Drzewo BST." << endl
 			<< "5. Zakoncz dzialanie aplikacji." << endl
 			<< "\nWybierz akcje: ";
 		while (opcja < 1 || opcja > 5) {
