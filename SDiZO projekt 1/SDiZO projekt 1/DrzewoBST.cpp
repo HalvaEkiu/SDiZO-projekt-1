@@ -24,7 +24,6 @@ DrzewoBST::DrzewoBST()
 	gornaWartoscLiczbLosowych = 100;
 }
 
-
 DrzewoBST::~DrzewoBST()
 {
 	UsunWezlyRekurencyjnie(korzenDrzewa);
@@ -47,8 +46,8 @@ void DrzewoBST::RotacjaLewo(WezelDrzewaBST * wezel)
 
 	if (pomocniczyPrawy != nullptr)
 	{
-		pomocniczyPrawy->wskaznikNaSynaPrawego = pomocniczyPrawy->wskaznikNaSynaLewego;
-		if (wezel->wskaznikNaSynaPrawego) {
+		wezel->wskaznikNaSynaPrawego = pomocniczyPrawy->wskaznikNaSynaLewego;
+		if (wezel->wskaznikNaSynaPrawego != nullptr) {
 			wezel->wskaznikNaSynaPrawego->wskaznikNaOjca = wezel;
 		}
 
@@ -69,19 +68,15 @@ void DrzewoBST::RotacjaLewo(WezelDrzewaBST * wezel)
 	}
 }
 
-void DrzewoBST::rl() {
-	RotacjaLewo(korzenDrzewa);
-}
-
 void DrzewoBST::RotacjaPrawo(WezelDrzewaBST * wezel)
 {
-	WezelDrzewaBST* pomocniczyLewy = wezel->wskaznikNaSynaPrawego;
+	WezelDrzewaBST* pomocniczyLewy = wezel->wskaznikNaSynaLewego;
 	WezelDrzewaBST* pomocniczyOjciec = wezel->wskaznikNaOjca;
 
 	if (pomocniczyLewy != nullptr)
 	{
-		pomocniczyLewy->wskaznikNaSynaLewego = pomocniczyLewy->wskaznikNaSynaPrawego;
-		if (wezel->wskaznikNaSynaLewego) {
+		wezel->wskaznikNaSynaLewego = pomocniczyLewy->wskaznikNaSynaPrawego;
+		if (wezel->wskaznikNaSynaLewego != nullptr) {
 			wezel->wskaznikNaSynaLewego->wskaznikNaOjca = wezel;
 		}
 
@@ -333,10 +328,16 @@ void DrzewoBST::OdczytZPliku(string NazwaPliku)
 		plik >> iloscElementowDocelowa;
 
 		//czyszczenie tablicy drzewa BST
-		UsunWezlyRekurencyjnie(korzenDrzewa->wskaznikNaSynaLewego);
-		UsunWezlyRekurencyjnie(korzenDrzewa->wskaznikNaSynaPrawego);
-		delete korzenDrzewa;
-		korzenDrzewa = nullptr;
+		if (korzenDrzewa != nullptr) {
+			if (korzenDrzewa->wskaznikNaSynaLewego != nullptr) {
+				UsunWezlyRekurencyjnie(korzenDrzewa->wskaznikNaSynaLewego);
+			}
+			if (korzenDrzewa->wskaznikNaSynaPrawego != nullptr) {
+				UsunWezlyRekurencyjnie(korzenDrzewa->wskaznikNaSynaPrawego);
+			}
+			delete korzenDrzewa;
+			korzenDrzewa = nullptr;
+		}
 
 		int wartoscPomocnicza = 0;
 
@@ -357,15 +358,61 @@ void DrzewoBST::GenerujDrzewoLosowo(int iloscElementowDocelowa)
 	DrzewoBST::iloscElementow = 0;
 	int wartoscTymczasowa = 0;
 
+	//czyszczenie tablicy drzewa BST
+	if (korzenDrzewa != nullptr) {
+		if (korzenDrzewa->wskaznikNaSynaLewego != nullptr) {
+			UsunWezlyRekurencyjnie(korzenDrzewa->wskaznikNaSynaLewego);
+		}
+		if (korzenDrzewa->wskaznikNaSynaPrawego != nullptr) {
+			UsunWezlyRekurencyjnie(korzenDrzewa->wskaznikNaSynaPrawego);
+		}
+		delete korzenDrzewa;
+		korzenDrzewa = nullptr;
+	}
+
 	for (int i = 0; i < iloscElementowDocelowa; i++) {
 		wartoscTymczasowa = rand() % gornaWartoscLiczbLosowych;
 		DodajNowaWartosc(wartoscTymczasowa);
 	}
 }
 
-void DrzewoBST::rebalanceDSW()
+void DrzewoBST::CzyWStrukturze(int wartoscElementuSzukanego)
 {
-	int n, i, s;
+	bool czyZnaleziono = false;
+
+	WezelDrzewaBST* wskaznikWezlaPomocniczy = nullptr;
+	wskaznikWezlaPomocniczy = korzenDrzewa;
+	
+	while (wskaznikWezlaPomocniczy != nullptr) {
+		if (wskaznikWezlaPomocniczy->wartoscWezla == wartoscElementuSzukanego) {
+			czyZnaleziono = true;
+			break;
+		}
+		else {
+			if (wskaznikWezlaPomocniczy->wartoscWezla < wartoscElementuSzukanego) {
+				//idziemy wzd³u¿ prawej krawêdzi
+				wskaznikWezlaPomocniczy = wskaznikWezlaPomocniczy->wskaznikNaSynaPrawego;
+			}
+			else {
+				//idziemy wzd³u¿ lewej krawêdzi
+				wskaznikWezlaPomocniczy = wskaznikWezlaPomocniczy->wskaznikNaSynaLewego;
+			}
+		}
+	}
+
+	if (czyZnaleziono == true) {
+		cout << "Znaleziono wartosc " << wartoscElementuSzukanego << " w strukturze.\n";
+	}
+	else {
+		cout << "Nie naleziono wartosci " << wartoscElementuSzukanego << " w strukturze.\n";
+	}
+}
+
+void DrzewoBST::RownowazenieDSW()
+{
+	int n, s;
+	
+
 	WezelDrzewaBST * wskaznikPomocniczy;
 
 	n = 0;                          // W n zliczamy wêz³y
@@ -373,7 +420,6 @@ void DrzewoBST::rebalanceDSW()
 	while (wskaznikPomocniczy != nullptr)                        // Dopóki jesteœmy w drzewie
 		if (wskaznikPomocniczy->wskaznikNaSynaLewego != nullptr)                   // Jeœli przetwarzany wêze³ ma lewego syna,
 		{
-			Wyswietl();
 			RotacjaPrawo(wskaznikPomocniczy);             // to obracamy wokó³ niego drzewo w prawo
 			wskaznikPomocniczy = wskaznikPomocniczy->wskaznikNaOjca;
 		}
@@ -382,26 +428,28 @@ void DrzewoBST::rebalanceDSW()
 			n++;                        // Inaczej zwiêkszamy licznik wêz³ów
 			wskaznikPomocniczy = wskaznikPomocniczy->wskaznikNaSynaPrawego;               // i przesuwamy siê do prawego syna
 		}
-
-	Wyswietl();
-
+	
 	// Teraz z listy tworzymy drzewo BST
-	s = n + 1 - log2(n + 1);        // Wyznaczamy pocz¹tkow¹ liczbê obrotów
 
-	wskaznikPomocniczy = korzenDrzewa;                       // Rozpoczynamy od pocz¹tku drzewa
-	for (i = 0; i < s; i++)          // Zadan¹ liczbê razy
+	int pomocniczaLiczbaWezlow = iloscElementow;
+	int iloscObrotowLewo = iloscElementow + 1 - log2(iloscElementow + 1);
+	        // Wyznaczamy pocz¹tkow¹ liczbê obrotów
+
+	wskaznikPomocniczy = korzenDrzewa;          // Rozpoczynamy od pocz¹tku drzewa
+	for (int i = 0; i < iloscObrotowLewo; i++)  // Zadan¹ liczbê razy
 	{
 		RotacjaLewo(wskaznikPomocniczy);                // co drugi wêze³ obracamy w lewo
 		wskaznikPomocniczy = wskaznikPomocniczy->wskaznikNaOjca->wskaznikNaSynaPrawego;
 	}
 
-	n = n - s;                      // Wyznaczamy kolejne liczby obrotów
+	pomocniczaLiczbaWezlow -= iloscObrotowLewo;
+							// Wyznaczamy kolejne liczby obrotów
 
-	while (n > 1)                    // Powtarzamy procedurê obrotów wêz³ów
+	while (pomocniczaLiczbaWezlow > 1)							// Powtarzamy procedurê obrotów wêz³ów
 	{
-		n >>= 1;                      // Jednak¿e wyznaczaj¹c za ka¿dym razem
-		wskaznikPomocniczy = korzenDrzewa;                     // odpowiednio mniejsz¹ liczbê obrotów, która
-		for (i = 0; i < n; i++)        // maleje z potêgami 2.
+		pomocniczaLiczbaWezlow >>= 1;							// Jednak¿e wyznaczaj¹c za ka¿dym razem
+		wskaznikPomocniczy = korzenDrzewa;	// odpowiednio mniejsz¹ liczbê obrotów, która
+		for (int i = 0; i < pomocniczaLiczbaWezlow; i++)				// maleje z potêgami 2.
 		{
 			RotacjaLewo(wskaznikPomocniczy);
 			wskaznikPomocniczy = wskaznikPomocniczy->wskaznikNaOjca->wskaznikNaSynaPrawego;

@@ -3,6 +3,7 @@
 #include "Tablica.h"
 #include "Lista.h"
 #include "KopiecBinarny.h"
+#include "DrzewoBST.h"
 
 
 using std::cout;
@@ -12,7 +13,6 @@ using std::string;
 
 MenuProgramu::MenuProgramu()
 {
-	string s = "cos cos" + std::to_string(1999.991) + "\n";
 }
 
 MenuProgramu::~MenuProgramu()
@@ -52,7 +52,7 @@ void MenuProgramu::UruchomGloweMenu()
 			break;
 		case 4:
 			system("cls");
-			//treeMenu();
+			UruchomMenuDrzewaBST();
 			break;
 		case 5:
 			czyKoniec = true;
@@ -456,6 +456,128 @@ void MenuProgramu::UruchomMenuKopca()
 			cin >> nazwaPliku;
 
 			kopiecBinarny.ZapiszDoPliku(nazwaPliku);
+			cout << endl;
+			break;
+
+			/*		testowanie
+			case 123:
+			for (int x = 0; x <= 13; x++) {
+			aver = 0;
+			tab->~Table();
+			for (int j = 0; j < 200; j++) {
+			tab = new Table();
+			tab->generateRandom(test[x]);
+			startTimer();
+			tab->del(70);
+			aver = aver + stopTimer();
+			}
+			cout << aver / 200 << endl;
+			}break;
+			*/
+
+		default:;
+		}
+	}
+}
+
+void MenuProgramu::UruchomMenuDrzewaBST()
+{
+	int  opcja;
+	int  wartosc;
+	bool czyKoniec = false;
+	string nazwaPliku;
+	DrzewoBST drzewoBST;
+
+	while (czyKoniec == false) {
+		opcja = 0;
+		cout << endl << "-----DRZEWO BST------" << endl
+			<< "Wybierz dzialanie:" << endl
+			<< "1. Wczytaj drzewo z pliku." << endl
+			<< "2. Generuj drzewo losowo." << endl
+			<< "3. Wyswietl drzewo." << endl
+			<< "4. Dodaj element do drzewa." << endl
+			<< "5. Usun element z drzewa." << endl
+			<< "6. Sprawdz czy element wystepuje w drzewie." << endl
+			<< "7. Powrot do glownego menu." << endl
+			<< "8. Zapisz drzewo do pliku." << endl
+			<< "\nWybor akcji: ";
+
+		cin.sync(); cin.clear();
+		cin >> opcja;
+		cout << endl;
+
+		int index = 0;
+
+		switch (opcja) {
+		case 1:
+			cout << "Wprowadz nazwe pliku: " << endl;
+			cin.sync(); cin.clear();
+			cin >> nazwaPliku;
+			cout << endl;
+
+			drzewoBST.OdczytZPliku(nazwaPliku);
+			drzewoBST.Wyswietl();
+			break;
+
+		case 2:
+			while (true) {
+				cout << "Ile elementow ma zawierac drzewo BST?" << endl;
+				cin.sync(); cin.clear();
+				cin >> wartosc;
+				if (wartosc <= 0) cout << "Liczba musi byc wieksza od zera!" << endl;
+				else break;
+			}
+			cout << endl;
+			drzewoBST.GenerujDrzewoLosowo(wartosc);
+			cout << "Przed rownowazeniem:" << endl;
+			drzewoBST.Wyswietl();
+			cout << "Po rownowazeniu:" << endl;
+			drzewoBST.RownowazenieDSW();
+			drzewoBST.Wyswietl();
+			break;
+
+		case 3:
+			drzewoBST.Wyswietl();
+			break;
+
+		case 4:
+			cout << "Podaj wartosc wprowadzanego elementu: ";
+			cin.sync(); cin.clear();
+			cin >> wartosc;
+			cout << endl;
+			drzewoBST.DodajNowaWartosc(wartosc);
+			drzewoBST.RownowazenieDSW();
+			drzewoBST.Wyswietl();
+			break;
+
+		case 5:
+			cout << "Podaj wartosc usuwanego elementu: ";
+			cin.sync(); cin.clear();
+			cin >> wartosc;
+			cout << endl;
+
+			drzewoBST.UsunWezelOWartosci(wartosc);
+			drzewoBST.RownowazenieDSW();
+			drzewoBST.Wyswietl();
+			break;
+
+		case 6:
+			cout << "Wprowadz wartosc szukanego elementu: ";
+			cin.sync(); cin.clear();
+			cin >> wartosc;
+			drzewoBST.CzyWStrukturze(wartosc);
+			break;
+
+		case 7:
+			czyKoniec = true;
+			break;
+
+		case 8:
+			cout << "Wprowadz nazwe pliku: " << endl;
+			cin.sync(); cin.clear();
+			cin >> nazwaPliku;
+
+			drzewoBST.ZapiszDoPliku(nazwaPliku);
 			cout << endl;
 			break;
 

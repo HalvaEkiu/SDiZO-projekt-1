@@ -16,34 +16,43 @@ using std::cin;
 
 int main()
 {
-	//MenuProgramu menuProgramu;
-	//menuProgramu.UruchomGloweMenu();
+	MenuProgramu menuProgramu;
+	menuProgramu.UruchomGloweMenu();
 
-	
 
-	
+
+	/*
 	int k;
 
 	DrzewoBST bst;
 	//bst.GenerujDrzewoLosowo(5);
-
+	//bst.GenerujDrzewoLosowo(30);
 	bst.DodajNowaWartosc(49);
-	bst.DodajNowaWartosc(49);
-	bst.DodajNowaWartosc(49);
-	bst.DodajNowaWartosc(49);
+	bst.DodajNowaWartosc(50);
+	bst.DodajNowaWartosc(50);
+	bst.DodajNowaWartosc(50);
+	bst.DodajNowaWartosc(50);
+	bst.DodajNowaWartosc(51);
 
 
 	bst.Wyswietl();
 
-	bst.rebalanceDSW();
+	//bst.rebalanceDSW();
+	//bst.RotacjaPrawo2();
+	//bst.Wyswietl();
 
+	bst.CzyWStrukturze(51);
+
+	bst.RownowazenieDSW();
 	bst.Wyswietl();
+
+	bst.CzyWStrukturze(51);
 
 	cout << "zakonczono";
 	int tymczasowa;
 	cin >> tymczasowa;
+	*/
 
-    return 0;
+	return 0;
 }
-
 

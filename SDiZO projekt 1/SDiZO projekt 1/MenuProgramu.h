@@ -10,5 +10,6 @@ public:
 	void UruchomMenuTablicy();
 	void UruchomMenuListy();
 	void UruchomMenuKopca();
+	void UruchomMenuDrzewaBST();
 };
 

@@ -17,25 +17,25 @@ public:
 	DrzewoBST();
 	~DrzewoBST();
 
-	void Wyswietl(string sp, string sn, WezelDrzewaBST * v);
+	
 	void Wyswietl();
 	void DodajNowaWartosc(int wartoscElementuNowego);
 	void UsunWezelOWartosci(int wartoscWezla);
 	void ZapiszDoPliku(string NazwaPliku);
 	void OdczytZPliku(string NazwaPliku);
 	void GenerujDrzewoLosowo(int iloscElementowDocelowa);
-
-	void rebalanceDSW();
-
-	void rl();
+	void CzyWStrukturze(int wartoscElementu);
+	void RownowazenieDSW();
 
 private:
 	WezelDrzewaBST* ZnajdzWezelOWartosci(int szukanaWartosc);
 	WezelDrzewaBST* NastepnikWezla(WezelDrzewaBST* wezel);
 	WezelDrzewaBST* MinimumPonizejWezla(WezelDrzewaBST* wezel);
+	void Wyswietl(string sp, string sn, WezelDrzewaBST * v);
 	void UsunWezlyRekurencyjnie(WezelDrzewaBST * v);
 	void RotacjaLewo(WezelDrzewaBST* wezel);
 	void RotacjaPrawo(WezelDrzewaBST* wezel);
+	
 	int log2(int x);
 	
 };
