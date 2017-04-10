@@ -10,27 +10,26 @@ using std::cout;
 using std::endl;
 using std::cin;
 using std::string;
+int testowanaIloscElementow[8] = { 1000, 2000, 5000, 10000, 20000, 40000, 80000, 160000 };
 
 double PCFreq;
-__int64 counter;
-
-int testowanaIloscElementow[8] = { 1000, 2000, 5000, 10000, 20000, 40000, 80000, 160000 };
+__int64 licznik2;
 
 void startTimer()
 {
-	LARGE_INTEGER li;
-	if (!QueryPerformanceFrequency(&li)) cout << "Blad!\n";
+	LARGE_INTEGER licznik;
+	if (!QueryPerformanceFrequency(&licznik)) cout << "Blad!\n";
 
-	PCFreq = double(li.QuadPart) / 1000.0;
-	QueryPerformanceCounter(&li);
-	counter = li.QuadPart;
+	PCFreq = double(licznik.QuadPart) / 1000.0;
+	QueryPerformanceCounter(&licznik);
+	licznik2 = licznik.QuadPart;
 }
 
 double stopTimer()
 {
-	LARGE_INTEGER li;
-	QueryPerformanceCounter(&li);
-	return ((li.QuadPart - counter) / PCFreq);
+	LARGE_INTEGER licznik;
+	QueryPerformanceCounter(&licznik);
+	return ((licznik.QuadPart - licznik2) / PCFreq);
 }
 
 MenuProgramu::MenuProgramu()
@@ -45,6 +44,8 @@ void MenuProgramu::UruchomGloweMenu()
 {
 	int opcja = -1;
 	bool czyKoniec = false;
+	cout.setf(std::ios::showpoint, std::ios::fixed);
+
 
 	while (czyKoniec == false) {
 		opcja = -1;
@@ -115,7 +116,7 @@ void MenuProgramu::UruchomMenuTablicy()
 		int index = 0;
 
 		switch (opcja) {
-		case 1:
+		case 1: //wczytywanie
 			cout << "Wprowadz nazwe pliku: " << endl;
 			cin.sync(); cin.clear();
 			cin >> nazwaPliku;
@@ -127,7 +128,7 @@ void MenuProgramu::UruchomMenuTablicy()
 			tablica.Wyswietl();
 			break;
 
-		case 2:
+		case 2: // genreacja losowa
 			while (true) {
 				cout << "Ile elementow ma zawierac tablica?" << endl;
 				cin.sync(); cin.clear();
@@ -141,14 +142,14 @@ void MenuProgramu::UruchomMenuTablicy()
 			tablica.Wyswietl();
 			break;
 
-		case 3:
+		case 3: //wyœwietlanie
 			tablica.Wyswietl();
 			break;
 
-		case 4:
+		case 4: //dodawanie
 			cout << "1. Dodaj element na poczatek tablicy." << endl
-				<< "2. Dodaj element na koniec tablicy." << endl
-				<< "3. Dodaj element na wybranym miejscu tablicy." << endl;
+				 << "2. Dodaj element na koniec tablicy." << endl
+				 << "3. Dodaj element na wybranym miejscu tablicy." << endl;
 			cin.sync(); cin.clear();
 			cin >> opcja;
 			switch (opcja) {
@@ -197,7 +198,7 @@ void MenuProgramu::UruchomMenuTablicy()
 			default:;
 			}break;
 
-		case 5:
+		case 5: //usuwanie
 			cout << "Podaj numer indeksu usuwanego elementu: ";
 			cin.sync(); cin.clear();
 			cin >> index;
@@ -212,7 +213,7 @@ void MenuProgramu::UruchomMenuTablicy()
 				break;
 			}
 
-		case 6:
+		case 6: // wyszukiwanie
 			cout << "Wprowadz wartosc szukanego elementu: ";
 			cin.sync(); cin.clear();
 			cin >> wartosc;
@@ -228,7 +229,7 @@ void MenuProgramu::UruchomMenuTablicy()
 			czyKoniec = true;
 			break;
 
-		case 7:
+		case 7: //wczytywanie
 			cout << "Wprowadz nazwe pliku: " << endl;
 			cin.sync(); cin.clear();
 			cin >> nazwaPliku;
@@ -243,7 +244,10 @@ void MenuProgramu::UruchomMenuTablicy()
 			int losowyIndex = 0;
 			double licznikCzasu = 0;
 			std::fstream plik;
-
+			plik.setf(std::ios::fixed);
+			plik.precision(10);
+			cout.setf(std::ios::fixed);
+			cout.precision(10);
 
 			cout << "usuwanie z tablicy: " << endl;
 			plik.open("testy-tablica-usuwanie.txt", std::ios::out);
@@ -337,7 +341,7 @@ void MenuProgramu::UruchomMenuListy()
 		int index = 0;
 
 		switch (opcja) {
-		case 1:
+		case 1: //odczyt z pliku 
 			cout << "Wprowadz nazwe pliku: " << endl;
 			cin.sync(); cin.clear();
 			cin >> nazwaPliku;
@@ -349,7 +353,7 @@ void MenuProgramu::UruchomMenuListy()
 			lista.Wyswietl();
 			break;
 
-		case 2:
+		case 2: //generacja losowa
 			while (true) {
 				cout << "Ile elementow ma zawierac lista?" << endl;
 				cin.sync(); cin.clear();
@@ -363,11 +367,11 @@ void MenuProgramu::UruchomMenuListy()
 			lista.Wyswietl();
 			break;
 
-		case 3:
+		case 3: //wyœwietlanie
 			lista.Wyswietl();
 			break;
 
-		case 4:
+		case 4: //dodawanie
 			cout << "Podaj indeks miejsca, gdzie ma byc wstawiony dodawany element: ";
 			cin.sync(); cin.clear();
 			cin >> index;
@@ -387,7 +391,7 @@ void MenuProgramu::UruchomMenuListy()
 				break;
 			}
 
-		case 5:
+		case 5: //usuwanie
 			cout << "Podaj wartosc usuwanego elementu: ";
 			cin.sync(); cin.clear();
 			cin >> wartosc;
@@ -397,7 +401,7 @@ void MenuProgramu::UruchomMenuListy()
 			lista.Wyswietl();
 			break;
 
-		case 6:
+		case 6: //wyszukiwanie
 			cout << "Wprowadz wartosc szukanego elementu: ";
 			cin.sync(); cin.clear();
 			cin >> wartosc;
@@ -410,11 +414,11 @@ void MenuProgramu::UruchomMenuListy()
 			}
 			break;
 
-		case 0:
+		case 0: //powrót do menu
 			czyKoniec = true;
 			break;
 
-		case 7:
+		case 7: //zapis do pliku
 			cout << "Wprowadz nazwe pliku: " << endl;
 			cin.sync(); cin.clear();
 			cin >> nazwaPliku;
@@ -429,7 +433,10 @@ void MenuProgramu::UruchomMenuListy()
 			int losowyIndex = 0;
 			double licznikCzasu = 0;
 			std::fstream plik;
-
+			plik.setf(std::ios::fixed);
+			plik.precision(10);
+			cout.setf(std::ios::fixed);
+			cout.precision(10);
 
 			cout << "usuwanie z listy: " << endl;
 			plik.open("testy-lista-usuwanie.txt", std::ios::out);
@@ -517,7 +524,7 @@ void MenuProgramu::UruchomMenuKopca()
 		int index = 0;
 
 		switch (opcja) {
-		case 1:
+		case 1: //wczytywanie pliku
 			cout << "Wprowadz nazwe pliku: " << endl;
 			cin.sync(); cin.clear();
 			cin >> nazwaPliku;
@@ -529,12 +536,14 @@ void MenuProgramu::UruchomMenuKopca()
 			kopiecBinarny.Wyswietl();
 			break;
 
-		case 2:
+		case 2: //generacja losowa
 			while (true) {
 				cout << "Ile elementow ma zawierac kopiec?" << endl;
 				cin.sync(); cin.clear();
 				cin >> wartosc;
-				if (wartosc <= 0) cout << "Liczba musi byc rozna od zera!" << endl;
+				if (wartosc <= 0 || wartosc >= kopiecBinarny.rozmiarTablicy) 
+					cout << "Liczba musi byc rozna od zera!" << endl
+						 << "Musi te¿ byc mniejsza od wartosci maksymalnej: " << kopiecBinarny.rozmiarTablicy << endl;
 				else break;
 			}
 			cout << endl;
@@ -543,11 +552,11 @@ void MenuProgramu::UruchomMenuKopca()
 			kopiecBinarny.Wyswietl();
 			break;
 
-		case 3:
+		case 3: //wyœwietlanie
 			kopiecBinarny.Wyswietl();
 			break;
 
-		case 4:
+		case 4: //dodawanie
 			cout << "Podaj wartosc wprowadzanego elementu: ";
 			cin.sync(); cin.clear();
 			cin >> wartosc;
@@ -557,7 +566,7 @@ void MenuProgramu::UruchomMenuKopca()
 			kopiecBinarny.Wyswietl();
 			break;
 
-		case 5:
+		case 5: //usuwanie
 			cout << "Podaj wartosc usuwanego elementu: ";
 			cin.sync(); cin.clear();
 			cin >> wartosc;
@@ -567,7 +576,7 @@ void MenuProgramu::UruchomMenuKopca()
 			kopiecBinarny.Wyswietl();
 			break;
 
-		case 6:
+		case 6: //wyszukiwanie
 			cout << "Wprowadz wartosc szukanego elementu: ";
 			cin.sync(); cin.clear();
 			cin >> wartosc;
@@ -580,11 +589,11 @@ void MenuProgramu::UruchomMenuKopca()
 			}
 			break;
 
-		case 0:
+		case 0: // powrót do menu
 			czyKoniec = true;
 			break;
 
-		case 7:
+		case 7: //zapis do pliku
 			cout << "Wprowadz nazwe pliku: " << endl;
 			cin.sync(); cin.clear();
 			cin >> nazwaPliku;
@@ -599,7 +608,10 @@ void MenuProgramu::UruchomMenuKopca()
 			int losowyIndex = 0;
 			double licznikCzasu = 0;
 			std::fstream plik;
-
+			plik.setf(std::ios::fixed);
+			plik.precision(10);
+			cout.setf(std::ios::fixed);
+			cout.precision(10);
 
 			cout << "usuwanie z kopca: " << endl;
 			plik.open("testy-kopiec-usuwanie.txt", std::ios::out);
@@ -687,7 +699,7 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 		int index = 0;
 
 		switch (opcja) {
-		case 1:
+		case 1: // wczytywanie z pliku
 			cout << "Wprowadz nazwe pliku: " << endl;
 			cin.sync(); cin.clear();
 			cin >> nazwaPliku;
@@ -698,7 +710,7 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 			drzewoBST.Wyswietl();
 			break;
 
-		case 2:
+		case 2: //generacja losowa
 			while (true) {
 				cout << "Ile elementow ma zawierac drzewo BST?" << endl;
 				cin.sync(); cin.clear();
@@ -716,11 +728,11 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 			drzewoBST.Wyswietl();
 			break;
 
-		case 3:
+		case 3: //wyœwietlanie
 			drzewoBST.Wyswietl();
 			break;
 
-		case 4:
+		case 4: //dodawanie
 			cout << "Podaj wartosc wprowadzanego elementu: ";
 			cin.sync(); cin.clear();
 			cin >> wartosc;
@@ -730,7 +742,7 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 			drzewoBST.Wyswietl();
 			break;
 
-		case 5:
+		case 5: //usuwanie
 			cout << "Podaj wartosc usuwanego elementu: ";
 			cin.sync(); cin.clear();
 			cin >> wartosc;
@@ -741,7 +753,7 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 			drzewoBST.Wyswietl();
 			break;
 
-		case 6:
+		case 6: //wyszukiwanie
 			cout << "Wprowadz wartosc szukanego elementu: ";
 			cin.sync(); cin.clear();
 			cin >> wartosc;
@@ -753,11 +765,11 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 			}
 			break;
 
-		case 0:
+		case 0: //powrót do menu
 			czyKoniec = true;
 			break;
 
-		case 7:
+		case 7: //zapis do pliku
 			cout << "Wprowadz nazwe pliku: " << endl;
 			cin.sync(); cin.clear();
 			cin >> nazwaPliku;
@@ -772,7 +784,10 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 			int losowyIndex = 0;
 			double licznikCzasu = 0;
 			std::fstream plik;
-
+			plik.setf(std::ios::fixed);
+			plik.precision(10);
+			cout.setf(std::ios::fixed);
+			cout.precision(10);
 
 			cout << "usuwanie z drzewa BST: " << endl;
 			plik.open("testy-drzewoBST-usuwanie.txt", std::ios::out);
