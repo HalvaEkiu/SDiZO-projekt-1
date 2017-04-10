@@ -689,6 +689,7 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 			<< "5. Usun element z drzewa." << endl
 			<< "6. Sprawdz czy element wystepuje w drzewie." << endl
 			<< "7. Zapisz drzewo do pliku." << endl
+			<< "8. Rownowazenie drzewa BST." << endl
 			<< "0. Powrot do glownego menu." << endl
 			<< "\nWybor akcji: ";
 
@@ -706,7 +707,6 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 			cout << endl;
 
 			drzewoBST.OdczytZPliku(nazwaPliku);
-			drzewoBST.RownowazenieDSW();
 			drzewoBST.Wyswietl();
 			break;
 
@@ -721,10 +721,6 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 			cout << endl;
 
 			drzewoBST.GenerujDrzewoLosowo(wartosc);
-			cout << "Przed rownowazeniem:" << endl;
-			drzewoBST.Wyswietl();
-			cout << "Po rownowazeniu:" << endl;
-			drzewoBST.RownowazenieDSW();
 			drzewoBST.Wyswietl();
 			break;
 
@@ -738,7 +734,6 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 			cin >> wartosc;
 			cout << endl;
 			drzewoBST.DodajNowaWartosc(wartosc);
-			drzewoBST.RownowazenieDSW();
 			drzewoBST.Wyswietl();
 			break;
 
@@ -749,7 +744,6 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 			cout << endl;
 
 			drzewoBST.UsunWezelOWartosci(wartosc);
-			drzewoBST.RownowazenieDSW();
 			drzewoBST.Wyswietl();
 			break;
 
@@ -776,6 +770,12 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 
 			drzewoBST.ZapiszDoPliku(nazwaPliku);
 			cout << endl;
+			break;
+
+		case 8: //Rownowazenie Drzewa
+			drzewoBST.RownowazenieDSW();
+			cout << endl;
+			drzewoBST.Wyswietl();
 			break;
 
 			//		testowanie
