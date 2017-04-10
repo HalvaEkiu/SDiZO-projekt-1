@@ -438,12 +438,46 @@ void MenuProgramu::UruchomMenuListy()
 			cout.setf(std::ios::fixed);
 			cout.precision(10);
 
-			cout << "usuwanie z listy: " << endl;
-			plik.open("testy-lista-usuwanie.txt", std::ios::out);
+			cout << "usuwanie z listy losowo: " << endl;
+			plik.open("testy-lista-usuwanie-losowe.txt", std::ios::out);
 			for (int indexTestu = 0; indexTestu < 8; indexTestu++) {
 				for (int j = 0; j < 200; j++) {
 					losowaWartosc = rand() % lista.gornaWartoscLiczbLosowych;
 					lista.GenerujListeLosowo(testowanaIloscElementow[indexTestu]);
+					startTimer();
+					lista.UsunElement(losowaWartosc);
+					licznikCzasu = licznikCzasu + stopTimer();
+				}
+				cout << licznikCzasu / 200 << endl;
+				plik << licznikCzasu / 200 << endl;
+				licznikCzasu = 0;
+			}
+			plik.close();
+
+			cout << "usuwanie z listy koniec: " << endl;
+			plik.open("testy-lista-usuwanie-koniec.txt", std::ios::out);
+			for (int indexTestu = 0; indexTestu < 8; indexTestu++) {
+				for (int j = 0; j < 200; j++) {
+					losowaWartosc = rand() % lista.gornaWartoscLiczbLosowych;
+					lista.GenerujListeLosowo(testowanaIloscElementow[indexTestu]-1);
+					lista.Wstaw(losowaWartosc, testowanaIloscElementow[indexTestu] - 1);
+					startTimer();
+					lista.UsunElement(losowaWartosc);
+					licznikCzasu = licznikCzasu + stopTimer();
+				}
+				cout << licznikCzasu / 200 << endl;
+				plik << licznikCzasu / 200 << endl;
+				licznikCzasu = 0;
+			}
+			plik.close();
+
+			cout << "usuwanie z listy poczatek: " << endl;
+			plik.open("testy-lista-usuwanie-poczatek.txt", std::ios::out);
+			for (int indexTestu = 0; indexTestu < 8; indexTestu++) {
+				for (int j = 0; j < 200; j++) {
+					losowaWartosc = rand() % lista.gornaWartoscLiczbLosowych;
+					lista.GenerujListeLosowo(testowanaIloscElementow[indexTestu]-1);
+					lista.Wstaw(losowaWartosc, 0);
 					startTimer();
 					lista.UsunElement(losowaWartosc);
 					licznikCzasu = licznikCzasu + stopTimer();
