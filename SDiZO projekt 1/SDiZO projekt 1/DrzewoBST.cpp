@@ -96,16 +96,17 @@ void DrzewoBST::RotacjaPrawo(WezelDrzewaBST * wezel)
 	}
 }
 
-int DrzewoBST::log2(int x)
+//Zwraca najwiêksz¹ potêgê liczby 2 wystêpuj¹c¹ w liczbie
+//wejœciowej
+int DrzewoBST::NajwiêkszaPotegaDwojkiW(int wartosc)
 {
-	int y = 1;
-	while ((x >>= 1) > 0) y <<= 1;
-	return y;
+	int potega = floor(log2(wartosc));
+	return pow(2, potega);
 }
 
 void DrzewoBST::Wyswietl(string sp, string sn, WezelDrzewaBST * v)
 {
-	// Algorytm funkcji pobrany z  strony liceum w Tarnowie
+	// Algorytm funkcji pobrany z strony liceum w Tarnowie
 	// za zgod¹ i sugesti¹ prowadz¹cego
 	{
 		string s;
@@ -264,13 +265,12 @@ void DrzewoBST::UsunWezelOWartosci(int wartoscWezla)
 			wskaznikPomocniczyDrugi = wskaznikPomocniczy->wskaznikNaSynaPrawego;
 		}
 
-
-		// Jeœli syn Y istnieje, to zast¹pi Y w drzewie
+		// Jeœli element usuwany posiada syna prawego, to on go zast¹pi
 		if (wskaznikPomocniczyDrugi != nullptr) {
 			wskaznikPomocniczyDrugi->wskaznikNaOjca = wskaznikPomocniczy->wskaznikNaOjca;
 		}
 
-		//przypadek gdy zastêpujemy korzeñ ca³ego drzewa
+		//Wariant gdy zastêpujemy korzeñ ca³ego drzewa
 		if (wskaznikPomocniczy->wskaznikNaOjca == nullptr) {
 			korzenDrzewa = wskaznikPomocniczyDrugi;
 		}
@@ -280,8 +280,6 @@ void DrzewoBST::UsunWezelOWartosci(int wartoscWezla)
 		else {
 			wskaznikPomocniczy->wskaznikNaOjca->wskaznikNaSynaPrawego = wskaznikPomocniczyDrugi;
 		}
-
-		// Jeœli Y jest nastêpnikiem X, to kopiujemy dane
 
 		if (wskaznikPomocniczy != wskaznikWezlaDoUsuniecia) {
 			wskaznikWezlaDoUsuniecia->wartoscWezla = wskaznikPomocniczy->wartoscWezla;
@@ -404,48 +402,46 @@ bool DrzewoBST::CzyWStrukturze(int wartoscElementuSzukanego)
 
 void DrzewoBST::RownowazenieDSW()
 {
-	int n, s;
-	
-
 	WezelDrzewaBST * wskaznikPomocniczy;
-
-	n = 0;                          // W n zliczamy wêz³y
-	wskaznikPomocniczy = korzenDrzewa;                       // Rozpoczynamy tworzenie listy liniowej
-	while (wskaznikPomocniczy != nullptr)                        // Dopóki jesteœmy w drzewie
-		if (wskaznikPomocniczy->wskaznikNaSynaLewego != nullptr)                   // Jeœli przetwarzany wêze³ ma lewego syna,
+                         
+	//Przetwarzanie drzewa w listê - obroty wez³ów w prawo
+	wskaznikPomocniczy = korzenDrzewa;                       
+	while (wskaznikPomocniczy != nullptr)                        
+		if (wskaznikPomocniczy->wskaznikNaSynaLewego != nullptr)
 		{
-			RotacjaPrawo(wskaznikPomocniczy);             // to obracamy wokó³ niego drzewo w prawo
+			RotacjaPrawo(wskaznikPomocniczy);
 			wskaznikPomocniczy = wskaznikPomocniczy->wskaznikNaOjca;
 		}
 		else
 		{
-			n++;                        // Inaczej zwiêkszamy licznik wêz³ów
-			wskaznikPomocniczy = wskaznikPomocniczy->wskaznikNaSynaPrawego;               // i przesuwamy siê do prawego syna
+			wskaznikPomocniczy = wskaznikPomocniczy->wskaznikNaSynaPrawego;
 		}
-	
-	// Teraz z listy tworzymy drzewo BST
 
+	//Przetwarzanie listy w drzewo o jak najmniejszej liczbie poziomów
 	int pomocniczaLiczbaWezlow = iloscElementow;
-	int iloscObrotowLewo = iloscElementow + 1 - log2(iloscElementow + 1);
-	        // Wyznaczamy pocz¹tkow¹ liczbê obrotów
+	int iloscObrotowLewo = iloscElementow + 1 - NajwiêkszaPotegaDwojkiW(iloscElementow + 1);
 
-	wskaznikPomocniczy = korzenDrzewa;          // Rozpoczynamy od pocz¹tku drzewa
-	for (int i = 0; i < iloscObrotowLewo; i++)  // Zadan¹ liczbê razy
+	wskaznikPomocniczy = korzenDrzewa;          
+	for (int i = 0; i < iloscObrotowLewo; i++)
 	{
-		RotacjaLewo(wskaznikPomocniczy);                // co drugi wêze³ obracamy w lewo
+		//obracamy co drugi wêze³ w lewo
+		RotacjaLewo(wskaznikPomocniczy);                
 		wskaznikPomocniczy = wskaznikPomocniczy->wskaznikNaOjca->wskaznikNaSynaPrawego;
 	}
 
+	//wyznaczenie kolejnej liczby obrotów
 	pomocniczaLiczbaWezlow -= iloscObrotowLewo;
-							// Wyznaczamy kolejne liczby obrotów
-
-	while (pomocniczaLiczbaWezlow > 1)							// Powtarzamy procedurê obrotów wêz³ów
+							
+	//kolejne obroty wêz³ów malej¹ce o kolejn¹ potêgê 2ki co przejœcie pêtli while()
+	while (pomocniczaLiczbaWezlow > 1)
 	{
-		pomocniczaLiczbaWezlow >>= 1;							// Jednak¿e wyznaczaj¹c za ka¿dym razem
-		wskaznikPomocniczy = korzenDrzewa;	// odpowiednio mniejsz¹ liczbê obrotów, która
-		for (int i = 0; i < pomocniczaLiczbaWezlow; i++)				// maleje z potêgami 2.
+		//zmniejszenie liczby o potêgê 2ki
+		pomocniczaLiczbaWezlow >>= 1;							
+		wskaznikPomocniczy = korzenDrzewa;
+		for (int i = 0; i < pomocniczaLiczbaWezlow; i++)
 		{
 			RotacjaLewo(wskaznikPomocniczy);
+			//podobnie jak poprzednio obracamy co 2gi wêze³
 			wskaznikPomocniczy = wskaznikPomocniczy->wskaznikNaOjca->wskaznikNaSynaPrawego;
 		}
 	}

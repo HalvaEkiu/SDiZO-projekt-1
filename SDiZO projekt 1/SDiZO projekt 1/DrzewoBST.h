@@ -38,7 +38,7 @@ private:
 	void RotacjaLewo(WezelDrzewaBST* wezel);
 	void RotacjaPrawo(WezelDrzewaBST* wezel);
 	
-	int log2(int x);
+	int NajwiêkszaPotegaDwojkiW(int x);
 	
 };
 

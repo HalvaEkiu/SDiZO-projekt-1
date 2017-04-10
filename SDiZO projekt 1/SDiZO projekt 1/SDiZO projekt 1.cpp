@@ -14,6 +14,14 @@ using std::cout;
 using std::endl;
 using std::cin;
 
+int log22(int x)
+{
+	//algorytm zaczerpniêty z sieci
+	int y = 1;
+	while ((x >>= 1) > 0) y <<= 1;
+	return y;
+}
+
 int main()
 {
 	MenuProgramu menuProgramu;
