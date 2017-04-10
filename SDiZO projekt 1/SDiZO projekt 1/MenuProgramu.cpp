@@ -11,6 +11,28 @@ using std::endl;
 using std::cin;
 using std::string;
 
+double PCFreq;
+__int64 counter;
+
+int testowanaIloscElementow[8] = { 1000, 2000, 5000, 10000, 20000, 40000, 80000, 160000 };
+
+void startTimer()
+{
+	LARGE_INTEGER li;
+	if (!QueryPerformanceFrequency(&li)) cout << "Blad!\n";
+
+	PCFreq = double(li.QuadPart) / 1000.0;
+	QueryPerformanceCounter(&li);
+	counter = li.QuadPart;
+}
+
+double stopTimer()
+{
+	LARGE_INTEGER li;
+	QueryPerformanceCounter(&li);
+	return ((li.QuadPart - counter) / PCFreq);
+}
+
 MenuProgramu::MenuProgramu()
 {
 }
@@ -21,20 +43,20 @@ MenuProgramu::~MenuProgramu()
 
 void MenuProgramu::UruchomGloweMenu()
 {
-	int opcja = 0;
+	int opcja = -1;
 	bool czyKoniec = false;
 
 	while (czyKoniec == false) {
-		opcja = 0;
+		opcja = -1;
 		system("cls");
 		cout << endl << "------ MENU GLOWNE -------" << endl
 			<< "1. Tablica." << endl
 			<< "2. Lista dwukierunkowa." << endl
 			<< "3. Kopiec binarny." << endl
 			<< "4. Drzewo BST." << endl
-			<< "5. Zakoncz dzialanie aplikacji." << endl
+			<< "0. Zakoncz dzialanie aplikacji." << endl
 			<< "\nWybierz akcje: ";
-		while (opcja < 1 || opcja > 5) {
+		while (opcja < 0 || opcja > 4) {
 			cin.sync(); cin.clear();
 			cin >> opcja;
 		}
@@ -54,10 +76,11 @@ void MenuProgramu::UruchomGloweMenu()
 			system("cls");
 			UruchomMenuDrzewaBST();
 			break;
-		case 5:
+		case 0:
 			czyKoniec = true;
 			break;
 		default:
+			czyKoniec = true;
 			break;
 		}
 	}
@@ -81,8 +104,8 @@ void MenuProgramu::UruchomMenuTablicy()
 			<< "4. Dodaj element do tablicy." << endl
 			<< "5. Usun element z tablicy." << endl
 			<< "6. Sprawdz czy element wystepuje w tablicy." << endl
-			<< "7. Powrot do glownego menu." << endl
-			<< "8. Zapisz tabkice do pliku." << endl
+			<< "7. Zapisz tabkice do pliku." << endl
+			<< "0. Powrot do glownego menu." << endl
 			<< "\nWybor akcji: ";
 
 		cin.sync(); cin.clear();
@@ -166,7 +189,7 @@ void MenuProgramu::UruchomMenuTablicy()
 						cin >> wartosc;
 						cout << endl;
 						tablica.Wstaw(wartosc, index);
-						
+
 						tablica.Wyswietl();
 						break;
 					}
@@ -185,6 +208,7 @@ void MenuProgramu::UruchomMenuTablicy()
 			}
 			else {
 				tablica.UsunElemementOIndexie(index);
+				tablica.Wyswietl();
 				break;
 			}
 
@@ -192,14 +216,19 @@ void MenuProgramu::UruchomMenuTablicy()
 			cout << "Wprowadz wartosc szukanego elementu: ";
 			cin.sync(); cin.clear();
 			cin >> wartosc;
-			tablica.CzyWStrukturze(wartosc);
+			if (tablica.CzyWStrukturze(wartosc)) {
+				cout << "Znaleziono wartosc w strukturze." << endl;
+			}
+			else {
+				cout << "Nie znaleziono wartosci w strukturze." << endl;
+			}
 			break;
 
-		case 7:
+		case 0:
 			czyKoniec = true;
 			break;
 
-		case 8:
+		case 7:
 			cout << "Wprowadz nazwe pliku: " << endl;
 			cin.sync(); cin.clear();
 			cin >> nazwaPliku;
@@ -208,26 +237,75 @@ void MenuProgramu::UruchomMenuTablicy()
 			cout << endl;
 			break;
 
-/*		testowanie
-		case 123:
-			for (int x = 0; x <= 13; x++) {
-				aver = 0;
-				tab->~Table();
-				for (int j = 0; j < 200; j++) {
-					tab = new Table();
-					tab->generateRandom(test[x]);
-					startTimer();
-					tab->del(70);
-					aver = aver + stopTimer();
-				}
-				cout << aver / 200 << endl;
-			}break;
-*/
+			//		testowanie
+		case 123: {
+			int losowaWartosc = 0;
+			int losowyIndex = 0;
+			double licznikCzasu = 0;
+			std::fstream plik;
 
-		default:;
+
+			cout << "usuwanie z tablicy: " << endl;
+			plik.open("testy-tablica-usuwanie.txt", std::ios::out);
+			for (int indexTestu = 0; indexTestu < 8; indexTestu++) {
+				for (int j = 0; j < 200; j++) {
+					losowyIndex = rand() % testowanaIloscElementow[indexTestu];
+					tablica.GenerujTabliceLosowo(testowanaIloscElementow[indexTestu]);
+					startTimer();
+					tablica.UsunElemementOIndexie(losowyIndex);
+					licznikCzasu = licznikCzasu + stopTimer();
+				}
+				cout << licznikCzasu / 200 << endl;
+				plik << licznikCzasu / 200 << endl;
+				licznikCzasu = 0;
+			}
+			plik.close();
+
+			cout << endl <<"dodawanie do tablicy: " << endl;
+			plik.open("testy-tablica-dodawanie.txt", std::ios::out);
+			for (int indexTestu = 0; indexTestu < 8; indexTestu++) {
+				for (int j = 0; j < 200; j++) {
+					losowyIndex = rand() % testowanaIloscElementow[indexTestu];
+					losowaWartosc = rand() % tablica.gornaWartoscLiczbLosowych;
+					tablica.GenerujTabliceLosowo(testowanaIloscElementow[indexTestu]);
+					startTimer();
+					tablica.Wstaw(losowaWartosc,losowyIndex);
+					licznikCzasu = licznikCzasu + stopTimer();
+				}
+				cout << licznikCzasu / 200 << endl;
+				plik << licznikCzasu / 200 << endl;
+				licznikCzasu = 0;
+			}
+			plik.close();
+
+			cout << endl << "wyszukiwanie w tablicy: " << endl;
+			plik.open("testy-tablica-wyszukiwanie.txt", std::ios::out);
+			for (int indexTestu = 0; indexTestu < 8; indexTestu++) {
+				for (int j = 0; j < 200; j++) {
+					losowaWartosc = rand() % tablica.gornaWartoscLiczbLosowych;
+					tablica.GenerujTabliceLosowo(testowanaIloscElementow[indexTestu]);
+					startTimer();
+					tablica.CzyWStrukturze(losowaWartosc);
+					licznikCzasu = licznikCzasu + stopTimer();
+				}
+				cout << licznikCzasu / 200 << endl;
+				plik << licznikCzasu / 200 << endl;
+				licznikCzasu = 0;
+			}
+			plik.close();
+
+			break;
+		}
+			
+
+		default: {
+			cout << "Bledny wybor! Nastapi automatyczny powrot do glownego menu." << endl;
+			czyKoniec = true;
+			cin.clear(); cin.sync();
+			Sleep(2000);
+			}
 		}
 	}
-
 }
 
 void MenuProgramu::UruchomMenuListy()
@@ -248,8 +326,8 @@ void MenuProgramu::UruchomMenuListy()
 			<< "4. Dodaj element do listy." << endl
 			<< "5. Usun element z listy." << endl
 			<< "6. Sprawdz czy element wystepuje w liscie." << endl
-			<< "7. Powrot do glownego menu." << endl
-			<< "8. Zapisz liste do pliku." << endl
+			<< "7. Zapisz liste do pliku." << endl
+			<< "0. Powrot do glownego menu." << endl
 			<< "\nWybor akcji: ";
 
 		cin.sync(); cin.clear();
@@ -323,14 +401,20 @@ void MenuProgramu::UruchomMenuListy()
 			cout << "Wprowadz wartosc szukanego elementu: ";
 			cin.sync(); cin.clear();
 			cin >> wartosc;
-			lista.CzyWstrukturze(wartosc);
+
+			if (lista.CzyWstrukturze(wartosc)) {
+				cout << "Znaleziono wartosc w strukturze." << endl;
+			}
+			else {
+				cout << "Nie znaleziono wartosci w strukturze." << endl;
+			}
 			break;
 
-		case 7:
+		case 0:
 			czyKoniec = true;
 			break;
 
-		case 8:
+		case 7:
 			cout << "Wprowadz nazwe pliku: " << endl;
 			cin.sync(); cin.clear();
 			cin >> nazwaPliku;
@@ -339,21 +423,65 @@ void MenuProgramu::UruchomMenuListy()
 			cout << endl;
 			break;
 
-			/*		testowanie
-			case 123:
-			for (int x = 0; x <= 13; x++) {
-			aver = 0;
-			tab->~Table();
-			for (int j = 0; j < 200; j++) {
-			tab = new Table();
-			tab->generateRandom(test[x]);
-			startTimer();
-			tab->del(70);
-			aver = aver + stopTimer();
+			//		testowanie
+		case 123: {
+			int losowaWartosc = 0;
+			int losowyIndex = 0;
+			double licznikCzasu = 0;
+			std::fstream plik;
+
+
+			cout << "usuwanie z listy: " << endl;
+			plik.open("testy-lista-usuwanie.txt", std::ios::out);
+			for (int indexTestu = 0; indexTestu < 8; indexTestu++) {
+				for (int j = 0; j < 200; j++) {
+					losowaWartosc = rand() % lista.gornaWartoscLiczbLosowych;
+					lista.GenerujListeLosowo(testowanaIloscElementow[indexTestu]);
+					startTimer();
+					lista.UsunElement(losowaWartosc);
+					licznikCzasu = licznikCzasu + stopTimer();
+				}
+				cout << licznikCzasu / 200 << endl;
+				plik << licznikCzasu / 200 << endl;
+				licznikCzasu = 0;
 			}
-			cout << aver / 200 << endl;
-			}break;
-			*/
+			plik.close();
+
+			cout << endl << "dodawanie do listy: " << endl;
+			plik.open("testy-lista-dodawanie.txt", std::ios::out);
+			for (int indexTestu = 0; indexTestu < 8; indexTestu++) {
+				for (int j = 0; j < 200; j++) {
+					losowyIndex = rand() % testowanaIloscElementow[indexTestu];
+					losowaWartosc = rand() % lista.gornaWartoscLiczbLosowych;
+					lista.GenerujListeLosowo(testowanaIloscElementow[indexTestu]);
+					startTimer();
+					lista.Wstaw(losowaWartosc, losowyIndex);
+					licznikCzasu = licznikCzasu + stopTimer();
+				}
+				cout << licznikCzasu / 200 << endl;
+				plik << licznikCzasu / 200 << endl;
+				licznikCzasu = 0;
+			}
+			plik.close();
+
+			cout << endl << "wyszukiwanie w liscie: " << endl;
+			plik.open("testy-lista-wyszukiwanie.txt", std::ios::out);
+			for (int indexTestu = 0; indexTestu < 8; indexTestu++) {
+				for (int j = 0; j < 200; j++) {
+					losowaWartosc = rand() % lista.gornaWartoscLiczbLosowych;
+					lista.GenerujListeLosowo(testowanaIloscElementow[indexTestu]);
+					startTimer();
+					lista.CzyWstrukturze(losowaWartosc);
+					licznikCzasu = licznikCzasu + stopTimer();
+				}
+				cout << licznikCzasu / 200 << endl;
+				plik << licznikCzasu / 200 << endl;
+				licznikCzasu = 0;
+			}
+			plik.close();
+
+			break;
+		}
 
 		default:;
 		}
@@ -378,8 +506,8 @@ void MenuProgramu::UruchomMenuKopca()
 			<< "4. Dodaj element do kopca." << endl
 			<< "5. Usun element z kopca." << endl
 			<< "6. Sprawdz czy element wystepuje w kopcu." << endl
-			<< "7. Powrot do glownego menu." << endl
-			<< "8. Zapisz kopiec do pliku." << endl
+			<< "7. Zapisz kopiec do pliku." << endl
+			<< "0. Powrot do glownego menu." << endl
 			<< "\nWybor akcji: ";
 
 		cin.sync(); cin.clear();
@@ -443,14 +571,20 @@ void MenuProgramu::UruchomMenuKopca()
 			cout << "Wprowadz wartosc szukanego elementu: ";
 			cin.sync(); cin.clear();
 			cin >> wartosc;
-			kopiecBinarny.CzyWstrukturze(wartosc);
+
+			if (kopiecBinarny.CzyWstrukturze(wartosc)) {
+				cout << "Znaleziono wartosc w strukturze." << endl;
+			}
+			else {
+				cout << "Nie znaleziono wartosci w strukturze." << endl;
+			}
 			break;
 
-		case 7:
+		case 0:
 			czyKoniec = true;
 			break;
 
-		case 8:
+		case 7:
 			cout << "Wprowadz nazwe pliku: " << endl;
 			cin.sync(); cin.clear();
 			cin >> nazwaPliku;
@@ -459,21 +593,65 @@ void MenuProgramu::UruchomMenuKopca()
 			cout << endl;
 			break;
 
-			/*		testowanie
-			case 123:
-			for (int x = 0; x <= 13; x++) {
-			aver = 0;
-			tab->~Table();
-			for (int j = 0; j < 200; j++) {
-			tab = new Table();
-			tab->generateRandom(test[x]);
-			startTimer();
-			tab->del(70);
-			aver = aver + stopTimer();
+			//		testowanie
+		case 123: {
+			int losowaWartosc = 0;
+			int losowyIndex = 0;
+			double licznikCzasu = 0;
+			std::fstream plik;
+
+
+			cout << "usuwanie z kopca: " << endl;
+			plik.open("testy-kopiec-usuwanie.txt", std::ios::out);
+			for (int indexTestu = 0; indexTestu < 8; indexTestu++) {
+				for (int j = 0; j < 200; j++) {
+					losowaWartosc = rand() % kopiecBinarny.gornaWartoscLiczbLosowych;
+					kopiecBinarny.GenerujKopiecLosowo(testowanaIloscElementow[indexTestu]);
+					startTimer();
+					kopiecBinarny.UsunElement(losowaWartosc);
+					licznikCzasu = licznikCzasu + stopTimer();
+				}
+				cout << licznikCzasu / 200 << endl;
+				plik << licznikCzasu / 200 << endl;
+				licznikCzasu = 0;
 			}
-			cout << aver / 200 << endl;
-			}break;
-			*/
+			plik.close();
+
+			cout << endl << "dodawanie do kopca: " << endl;
+			plik.open("testy-kopiec-dodawanie.txt", std::ios::out);
+			for (int indexTestu = 0; indexTestu < 8; indexTestu++) {
+				for (int j = 0; j < 200; j++) {
+					losowyIndex = rand() % testowanaIloscElementow[indexTestu];
+					losowaWartosc = rand() % kopiecBinarny.gornaWartoscLiczbLosowych;
+					kopiecBinarny.GenerujKopiecLosowo(testowanaIloscElementow[indexTestu]);
+					startTimer();
+					kopiecBinarny.Dodaj(losowaWartosc);
+					licznikCzasu = licznikCzasu + stopTimer();
+				}
+				cout << licznikCzasu / 200 << endl;
+				plik << licznikCzasu / 200 << endl;
+				licznikCzasu = 0;
+			}
+			plik.close();
+
+			cout << endl << "wyszukiwanie w kopcu: " << endl;
+			plik.open("testy-kopiec-wyszukiwanie.txt", std::ios::out);
+			for (int indexTestu = 0; indexTestu < 8; indexTestu++) {
+				for (int j = 0; j < 200; j++) {
+					losowaWartosc = rand() % kopiecBinarny.gornaWartoscLiczbLosowych;
+					kopiecBinarny.GenerujKopiecLosowo(testowanaIloscElementow[indexTestu]);
+					startTimer();
+					kopiecBinarny.CzyWstrukturze(losowaWartosc);
+					licznikCzasu = licznikCzasu + stopTimer();
+				}
+				cout << licznikCzasu / 200 << endl;
+				plik << licznikCzasu / 200 << endl;
+				licznikCzasu = 0;
+			}
+			plik.close();
+
+			break;
+		}
 
 		default:;
 		}
@@ -498,8 +676,8 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 			<< "4. Dodaj element do drzewa." << endl
 			<< "5. Usun element z drzewa." << endl
 			<< "6. Sprawdz czy element wystepuje w drzewie." << endl
-			<< "7. Powrot do glownego menu." << endl
-			<< "8. Zapisz drzewo do pliku." << endl
+			<< "7. Zapisz drzewo do pliku." << endl
+			<< "0. Powrot do glownego menu." << endl
 			<< "\nWybor akcji: ";
 
 		cin.sync(); cin.clear();
@@ -516,6 +694,7 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 			cout << endl;
 
 			drzewoBST.OdczytZPliku(nazwaPliku);
+			drzewoBST.RownowazenieDSW();
 			drzewoBST.Wyswietl();
 			break;
 
@@ -528,6 +707,7 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 				else break;
 			}
 			cout << endl;
+
 			drzewoBST.GenerujDrzewoLosowo(wartosc);
 			cout << "Przed rownowazeniem:" << endl;
 			drzewoBST.Wyswietl();
@@ -565,14 +745,19 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 			cout << "Wprowadz wartosc szukanego elementu: ";
 			cin.sync(); cin.clear();
 			cin >> wartosc;
-			drzewoBST.CzyWStrukturze(wartosc);
+			if (drzewoBST.CzyWStrukturze(wartosc)) {
+				cout << "Znaleziono wartosc w strukturze." << endl;
+			}
+			else {
+				cout << "Nie znaleziono wartosci w strukturze." << endl;
+			}
 			break;
 
-		case 7:
+		case 0:
 			czyKoniec = true;
 			break;
 
-		case 8:
+		case 7:
 			cout << "Wprowadz nazwe pliku: " << endl;
 			cin.sync(); cin.clear();
 			cin >> nazwaPliku;
@@ -581,21 +766,67 @@ void MenuProgramu::UruchomMenuDrzewaBST()
 			cout << endl;
 			break;
 
-			/*		testowanie
-			case 123:
-			for (int x = 0; x <= 13; x++) {
-			aver = 0;
-			tab->~Table();
-			for (int j = 0; j < 200; j++) {
-			tab = new Table();
-			tab->generateRandom(test[x]);
-			startTimer();
-			tab->del(70);
-			aver = aver + stopTimer();
+			//		testowanie
+		case 123: {
+			int losowaWartosc = 0;
+			int losowyIndex = 0;
+			double licznikCzasu = 0;
+			std::fstream plik;
+
+
+			cout << "usuwanie z drzewa BST: " << endl;
+			plik.open("testy-drzewoBST-usuwanie.txt", std::ios::out);
+			for (int indexTestu = 0; indexTestu < 8; indexTestu++) {
+				for (int j = 0; j < 200; j++) {
+					losowaWartosc = rand() % drzewoBST.gornaWartoscLiczbLosowych;
+					drzewoBST.GenerujDrzewoLosowo(testowanaIloscElementow[indexTestu]);
+					startTimer();
+					drzewoBST.UsunWezelOWartosci(losowaWartosc);
+					drzewoBST.RownowazenieDSW();
+					licznikCzasu = licznikCzasu + stopTimer();
+				}
+				cout << licznikCzasu / 200 << endl;
+				plik << licznikCzasu / 200 << endl;
+				licznikCzasu = 0;
 			}
-			cout << aver / 200 << endl;
-			}break;
-			*/
+			plik.close();
+
+			cout << endl << "dodawanie do drzewa BST: " << endl;
+			plik.open("testy-drzewoBST-dodawanie.txt", std::ios::out);
+			for (int indexTestu = 0; indexTestu < 8; indexTestu++) {
+				for (int j = 0; j < 200; j++) {
+					losowyIndex = rand() % testowanaIloscElementow[indexTestu];
+					losowaWartosc = rand() % drzewoBST.gornaWartoscLiczbLosowych;
+					drzewoBST.GenerujDrzewoLosowo(testowanaIloscElementow[indexTestu]);
+					startTimer();
+					drzewoBST.DodajNowaWartosc(losowaWartosc);
+					drzewoBST.RownowazenieDSW();
+					licznikCzasu = licznikCzasu + stopTimer();
+				}
+				cout << licznikCzasu / 200 << endl;
+				plik << licznikCzasu / 200 << endl;
+				licznikCzasu = 0;
+			}
+			plik.close();
+
+			cout << endl << "wyszukiwanie w drzewie BST: " << endl;
+			plik.open("testy-drzewoBST-wyszukiwanie.txt", std::ios::out);
+			for (int indexTestu = 0; indexTestu < 8; indexTestu++) {
+				for (int j = 0; j < 200; j++) {
+					losowaWartosc = rand() % drzewoBST.gornaWartoscLiczbLosowych;
+					drzewoBST.GenerujDrzewoLosowo(testowanaIloscElementow[indexTestu]);
+					startTimer();
+					drzewoBST.CzyWStrukturze(losowaWartosc);
+					licznikCzasu = licznikCzasu + stopTimer();
+				}
+				cout << licznikCzasu / 200 << endl;
+				plik << licznikCzasu / 200 << endl;
+				licznikCzasu = 0;
+			}
+			plik.close();
+
+			break;
+		}
 
 		default:;
 		}

@@ -21,7 +21,6 @@ DrzewoBST::DrzewoBST()
 
 	korzenDrzewa = nullptr;
 	iloscElementow = 0;
-	gornaWartoscLiczbLosowych = 100;
 }
 
 DrzewoBST::~DrzewoBST()
@@ -376,7 +375,7 @@ void DrzewoBST::GenerujDrzewoLosowo(int iloscElementowDocelowa)
 	}
 }
 
-void DrzewoBST::CzyWStrukturze(int wartoscElementuSzukanego)
+bool DrzewoBST::CzyWStrukturze(int wartoscElementuSzukanego)
 {
 	bool czyZnaleziono = false;
 
@@ -400,12 +399,7 @@ void DrzewoBST::CzyWStrukturze(int wartoscElementuSzukanego)
 		}
 	}
 
-	if (czyZnaleziono == true) {
-		cout << "Znaleziono wartosc " << wartoscElementuSzukanego << " w strukturze.\n";
-	}
-	else {
-		cout << "Nie naleziono wartosci " << wartoscElementuSzukanego << " w strukturze.\n";
-	}
+	return czyZnaleziono;
 }
 
 void DrzewoBST::RownowazenieDSW()

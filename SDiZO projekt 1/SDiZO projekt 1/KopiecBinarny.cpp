@@ -6,11 +6,11 @@ using std::endl;
 
 KopiecBinarny::KopiecBinarny()
 {
-	rozmiarTablicy = 20000; //rozmiar maksymalny tablicy
+	rozmiarTablicy = 400000; //rozmiar maksymalny tablicy
 
 	wskaznikPoczatkuTablicy = nullptr; //najpierw nullptr na wypadek niemo¿liwoœci zaalokowania
 	wskaznikPoczatkuTablicy = new int[rozmiarTablicy];
-	gornaWartoscLiczbLosowych = 1000;
+
 
 	srand(time(NULL));
 
@@ -181,7 +181,7 @@ void KopiecBinarny::UsunElement(int wartoscElementuUsuniecia)
 	}
 }
 
-void KopiecBinarny::CzyWstrukturze(int wartoscElementu)
+bool KopiecBinarny::CzyWstrukturze(int wartoscElementu)
 {
 	bool czyZnaleziono = false;
 	
@@ -192,12 +192,7 @@ void KopiecBinarny::CzyWstrukturze(int wartoscElementu)
 		}
 	}
 
-	if (czyZnaleziono == true) {
-		cout << "Znaleziono wartosc " << wartoscElementu << " w strukturze.\n";
-	}
-	else {
-		cout << "Nie naleziono wartosci " << wartoscElementu << " w strukturze.\n";
-	}
+	return czyZnaleziono;
 }
 
 void KopiecBinarny::Wyswietl(string sp, string sn, int index)

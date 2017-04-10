@@ -11,9 +11,11 @@ class DrzewoBST
 string cr, cl, cp;
 WezelDrzewaBST* korzenDrzewa;
 int iloscElementow;
-int gornaWartoscLiczbLosowych;
 
 public:
+
+	const int gornaWartoscLiczbLosowych = 100000;
+
 	DrzewoBST();
 	~DrzewoBST();
 
@@ -24,7 +26,7 @@ public:
 	void ZapiszDoPliku(string NazwaPliku);
 	void OdczytZPliku(string NazwaPliku);
 	void GenerujDrzewoLosowo(int iloscElementowDocelowa);
-	void CzyWStrukturze(int wartoscElementu);
+	bool CzyWStrukturze(int wartoscElementu);
 	void RownowazenieDSW();
 
 private:

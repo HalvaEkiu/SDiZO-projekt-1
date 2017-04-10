@@ -11,7 +11,8 @@ public:
 	int* wskaznikPoczatkuTablicy;
 	int iloscElementow;
 	int rozmiarTablicy;
-	int gornaWartoscLiczbLosowych;
+
+	const int gornaWartoscLiczbLosowych = 160000;
 
 	KopiecBinarny();
 	~KopiecBinarny();
@@ -20,7 +21,7 @@ public:
 	void GenerujKopiecLosowo(int iloscElementow);
 	void Dodaj(int wartoscElementu);
 	void UsunElement(int wartoscElementuUsuniecia);
-	void CzyWstrukturze(int wartoscElementu);
+	bool CzyWstrukturze(int wartoscElementu);
 	void Wyswietl();
 
 private: 

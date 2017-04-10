@@ -8,9 +8,9 @@ class Tablica
 private:
 	int* wskaznikPoczatkuTablicy;
 	int iloscElementow;
-	int gornaWartoscLiczbLosowych;
 
 public:
+	const int gornaWartoscLiczbLosowych = 100000;
 	Tablica();
 	~Tablica();
 	void Wyswietl();
@@ -20,7 +20,7 @@ public:
 	void OdczytZPliku(string NazwaPliku);
 	void GenerujTabliceLosowo(int rozmiarTablicy);
 	void UsunElemementOIndexie(int indexElementuDoUsuniecia);
-	void CzyWStrukturze(int wartoscElementuSzukanego);
+	bool CzyWStrukturze(int wartoscElementuSzukanego);
 
 private:
 	void WstawDoTablicy(int wartoscNowegoElementu, int indexPoprzedzajacego);

@@ -11,9 +11,10 @@ private:
 	ElementListy* wskaznikPoczatkuListy;
 	ElementListy* wskaznikKoncaListy;
 	int iloscElementow;
-	int gornaWartoscLiczbLosowych;
 
 public:
+	const int gornaWartoscLiczbLosowych = 100000;
+
 	Lista();
 	~Lista();
 	void Wyswietl();
@@ -23,7 +24,7 @@ public:
 	void GenerujListeLosowo(int rozmiarTablicy);
 	void UsunElement(int wartoscElementuDoUsuniecia);
 	void UsunZawartosc();
-	void CzyWstrukturze(int wartoscElementuSzukanego);
+	bool CzyWstrukturze(int wartoscElementuSzukanego);
 
 private:
 	void WyswietlOdPoczatku();

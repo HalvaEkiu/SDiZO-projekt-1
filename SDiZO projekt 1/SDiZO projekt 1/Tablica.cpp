@@ -7,7 +7,6 @@ using std::endl;
 Tablica::Tablica()
 {
 	wskaznikPoczatkuTablicy = nullptr;
-	gornaWartoscLiczbLosowych = 10;
 	srand(time(NULL));
 }
 
@@ -119,7 +118,7 @@ void Tablica::UsunElemementOIndexie(int indexElementuDoUsuniecia)
 		
 }
 
-void Tablica::CzyWStrukturze(int wartoscElementuSzukanego)
+bool Tablica::CzyWStrukturze(int wartoscElementuSzukanego)
 {
 	bool czyZnaleziono = false;
 	
@@ -132,12 +131,7 @@ void Tablica::CzyWStrukturze(int wartoscElementuSzukanego)
 		}
 	}
 
-	if (czyZnaleziono == true) {
-		cout << "Podana wartoœæ znajduje sie w strukturze." << endl;
-	}
-	else {
-		cout << "Podana wartoœæ nie znajduje sie w strukturze." << endl;
-	}
+	return czyZnaleziono;
 }
 
 void Tablica::WstawDoTablicy(int wartoscNowegoElementu, int indexNowegoElementu)

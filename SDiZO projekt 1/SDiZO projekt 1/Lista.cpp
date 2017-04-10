@@ -10,8 +10,6 @@ Lista::Lista()
 	wskaznikKoncaListy = nullptr;
 
 	srand(time(NULL));
-
-	gornaWartoscLiczbLosowych = 10;
 }
 
 Lista::~Lista()
@@ -258,7 +256,7 @@ void Lista::UsunZawartosc()
 	}
 }
 
-void Lista::CzyWstrukturze(int wartoscElementuSzukanego)
+bool Lista::CzyWstrukturze(int wartoscElementuSzukanego)
 {
 	bool czyZnaleziono = false;
 	ElementListy* wskaznikPomocniczyListy = nullptr;
@@ -272,10 +270,5 @@ void Lista::CzyWstrukturze(int wartoscElementuSzukanego)
 		wskaznikPomocniczyListy = wskaznikPomocniczyListy->wskaznikNaKolejny;
 	}
 
-	if (czyZnaleziono == true) {
-		cout << "Podana wartoœæ znajduje sie w strukturze." << endl;
-	}
-	else {
-		cout << "Podana wartoœæ nie znajduje sie w strukturze." << endl;
-	}
+	return czyZnaleziono;
 }
